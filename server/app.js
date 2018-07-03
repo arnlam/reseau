@@ -11,8 +11,9 @@ const apiRoutes = require('./routes/api');
 const app = express();
 const { graphqlExpress, graphiqlExpress } = require ('apollo-server-express');
 const { makeExecutableSchema } = require('graphql-tools');
-const typeDefs = require('./graphql/schema');
-const resolvers = require('./graphql/resolvers');
+const schema = require('./data/schema')
+// const typeDefs = require('./graphql/schema');
+// const resolvers = require('./graphql/resolvers');
 var mongoose = require('mongoose');
 
 //Set up default mongoose connection
@@ -37,10 +38,10 @@ const books = [
     },
   ];
 
-const schema = makeExecutableSchema({
-    typeDefs,
-    resolvers,
-  });
+// const schema = makeExecutableSchema({
+//     typeDefs,
+//     resolvers,
+//   });
 
 
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
