@@ -30,7 +30,7 @@ var server = http.createServer(app);
  */
 
 
-server.listen(port);
+server.listen(port, () => console.log(`c'est parti!`));
 server.on('error', onError);
 server.on('listening', onListening);
 
