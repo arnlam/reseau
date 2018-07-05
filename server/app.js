@@ -12,14 +12,10 @@ import typeDefs from './data/schema';
 const app = express();
 
 Mongoose.Promise = global.Promise;
-
 Mongoose.connect('mongodb://localhost:27017/reseau');
 
 const server = new ApolloServer({typeDefs, resolvers})
-
-
 server.applyMiddleware({app});
-
 
 // config app
 app.use(logger('dev'));
@@ -29,7 +25,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // routes
-app.use('/', indexRouter);
+// app.use('/', path.join(__dirname, '../front/public'))
+// app.use('/', indexRouter);
+
 // app.use('/api', apiRoutes);
 
 module.exports = app;
