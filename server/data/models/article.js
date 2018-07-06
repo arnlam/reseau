@@ -2,7 +2,12 @@ const Mongoose = require('mongoose');
 
 const SchemaArticle = new Mongoose.Schema({
   articleId: Number,
-  vues: Number
+  texte: {
+    type: String,
+    required: true
+  },
+  vues: Number,
+  auteur: String
 });
 
 const Article = Mongoose.model('articles', SchemaArticle);

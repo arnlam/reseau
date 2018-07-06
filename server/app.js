@@ -4,15 +4,17 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import Mongoose from 'mongoose';
 import indexRouter from './routes/index';
+import cors from 'cors';
 import { ApolloServer } from 'apollo-server-express';
 
 import resolvers from './data/resolvers';
 import typeDefs from './data/schema';
 
 const app = express();
+app.use(cors());
 
 Mongoose.Promise = global.Promise;
-Mongoose.connect('mongodb://localhost:27017/reseau');
+Mongoose.connect('mongodb://localhost:27017/reseau', { useNewUrlParser: true });
 
 const server = new ApolloServer({typeDefs, resolvers})
 server.applyMiddleware({app});

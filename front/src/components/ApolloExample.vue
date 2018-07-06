@@ -86,7 +86,7 @@ export default {
           mutation: MESSAGE_ADD_MUTATION,
           variables: {
             input: {
-              text: this.newMessage,
+              texte: this.newMessage,
             },
           },
         });

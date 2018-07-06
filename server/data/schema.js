@@ -10,10 +10,9 @@ type Auteur {
 
 type Article{
   _id: ID!
-  titre: String
   texte: String
   vues: Int
-  auteur: Auteur
+  auteur: String
 }
 
 # //// INPUT ////
@@ -24,9 +23,8 @@ input InputAuteur {
 }
 
 input InputArticle {
-  titre: String!
   texte: String!
-  auteur: InputAuteur
+  auteur: String
 }
 
 # //// QUERY ////

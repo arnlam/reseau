@@ -1,6 +1,6 @@
 import Auteur from './models/auteur';
 import Vue from './models/vue';
-import Article from './models/vue';
+import Article from './models/article';
 
 const resolvers = {
   Query: {
@@ -32,6 +32,7 @@ const resolvers = {
     },
     // * ARTICLES MUTATION * //
     async creerArticle(root, { input }) {
+      console.log({input})
       return await Article.create(input);
     },
     async updateArticle(root, { _id, input }) {
