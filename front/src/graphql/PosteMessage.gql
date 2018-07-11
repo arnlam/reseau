@@ -1,0 +1,9 @@
+mutation creerArticle($texte: String!){
+	creerArticle(
+    input:{
+      texte: $texte
+    }){
+    id
+    texte
+  }
+}

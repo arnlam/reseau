@@ -1,19 +1,22 @@
 import Auteur from './models/auteur';
 import Vue from './models/vue';
 import Article from './models/article';
-
+import { PubSub } from 'graphql-subscriptions';
+import shortid from 'shortid';
+const pubsub = new PubSub();
+  
 const resolvers = {
   Query: {
     // * AUTEURS QUERY * //
-    async auteur(root, { _id }) {
-      return await Auteur.findById(_id);
+    async auteur(root, { id }) {
+      return await Auteur.findOne(id);
     },
     async tousLesAuteurs() {
       return await Auteur.find();
     },
     // * ARTICLES QUERY * //
-    async article(root, { _id }) {
-      return await Article.findById(_id);
+    async article(root, { id }) {
+      return await Article.findOne(id);
     },
     async tousLesArticles() {
       return await Article.find();
@@ -24,33 +27,45 @@ const resolvers = {
     async creerAuteur(root, { input }) {
       return await Auteur.create(input);
     },
-    async updateAuteur(root, { _id, input }) {
-      return await Auteur.findOneAndUpdate({ _id }, input, { new: true });
+    async updateAuteur(root, { id, input }) {
+      return await Auteur.findOneAndUpdate({ id }, input, { new: true });
     },
-    async supprimeAuteur(root, {_id}){
-      return await Auteur.findOneAndRemove({_id});
+    async supprimeAuteur(root, { id }){
+      return await Auteur.findOneAndRemove({ id });
     },
     // * ARTICLES MUTATION * //
-    async creerArticle(root, { input }) {
+    async creerArticle(root, { input }, context) {
       console.log({input})
-      return await Article.create(input);
+      const message = {
+        texte: input.texte,
+        id: shortid.generate()
+      }
+      await Article.create(message);
+      pubsub.publish('articleAjoute', { articleAjoute: message })
+      return message
     },
-    async updateArticle(root, { _id, input }) {
-      return await Article.findOneAndUpdate({ _id }, input, { new: true });
+    async updateArticle(root, { id, input }) {
+      return await Article.findOneAndUpdate({ id }, input, { new: true });
     },
-    async supprimeArticle(root, {_id}){
-      return await Article.findOneAndRemove({_id});
+    async supprimeArticle(root, { id }){
+      return await Article.findOneAndRemove({id});
     },
-    async ajoutVue(root, {_id}){
-      return await Article.findOneAndUpdate({_id}, (post) => post++, { new: true } );
+    async ajoutVue(root, { id }){
+      return await Article.findOneAndUpdate({id}, (post) => post++, { new: true } );
     },
   },
-
+  Subscription: {
+    articleAjoute: {
+      subscribe: () => pubsub.asyncIterator('articleAjoute')
+    },
+  },
+  // 
   Article: {
     auteur(article) {
       return { id: 1, prenom: 'Hello', nom: 'World' };
     }
-  }
+  },
+
 };
 
 export default resolvers;

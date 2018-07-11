@@ -1,16 +1,18 @@
 const { gql } = require('apollo-server-express');
+import resolvers from './resolvers';
+import { makeExecutableSchema } from 'graphql-tools'
 
 const typeDefs = gql`
 type Auteur {
-  _id: ID!
+  id: String!
   prenom: String
   nom: String
   articles: [Article]
 }
 
 type Article{
-  _id: ID!
-  texte: String
+  id: String !
+  texte: String !
   vues: Int
   auteur: String
 }
@@ -30,9 +32,9 @@ input InputArticle {
 # //// QUERY ////
 
 type Query {
-  auteur(_id:ID!): Auteur
+  auteur(id: String!): Auteur
   tousLesAuteurs: [Auteur]
-  article(_id:ID!): Article
+  article(id: String!): Article
   tousLesArticles: [Article]
 }
 
@@ -40,21 +42,33 @@ type Query {
 
 type Mutation {
   creerAuteur(input: InputAuteur) : Auteur
-  updateAuteur(_id: ID!, input: InputAuteur) : Auteur
-  supprimeAuteur(_id: ID!) : Auteur
+  updateAuteur(id:String!, input: InputAuteur) : Auteur
+  supprimeAuteur(id:String!) : Auteur
 
   # MUTATION ARTICLE
   creerArticle(input: InputArticle) : Article
-  updateArticle(_id: ID!, input: InputArticle) : Article
-  supprimeArticle(_id: ID!) : Article
+  updateArticle(id:String!, input: InputArticle) : Article
+  supprimeArticle(id:String!) : Article
 
   # MUTATION VUE
-  ajoutVue(articleId:ID!): Article
+  ajoutVue(articleId:String!): Article
 }
+
+# //// SOUSCRIPTIONS ////
+type Subscription {
+  articleAjoute: Article!
+}
+
+
+
 `;
 
 // const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 // addMockFunctionsToSchema({ schema, mocks });
+const jsSchema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
+})
 
-export default typeDefs;
+export default jsSchema;

@@ -10,7 +10,9 @@ var http = require('http');
 
 import { execute, subscribe } from 'graphql'
 import { SubscriptionServer } from 'subscriptions-transport-ws';
-import schema from '../data/schema';
+import { ApolloServer } from 'apollo-server-express';
+import schema from '../data/schema'
+
 /**
  * Get port from environment and store in Express.
  */
@@ -26,18 +28,19 @@ const SUBSCRIPTIONS_PATH = '/subscriptions';
  */
 
 var server = http.createServer(app);
-
 /**
  * Listen on provided port, on all network interfaces.
  */
-
+const apollo = new ApolloServer({schema})
+apollo.applyMiddleware({app});
 
 server.listen(port, () => console.log(`c'est parti! sur http://localhost:${port}`));
 server.on('error', onError);
 server.on('listening', onListening);
 
+// eslint-disable-next-line
 SubscriptionServer.create(
-  {
+    {
     schema,
     execute,
     subscribe,
