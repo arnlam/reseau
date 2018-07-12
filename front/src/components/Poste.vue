@@ -14,8 +14,7 @@
         <template slot-scope="{ mutate, loading, error }">
           <textarea
           v-model="texte"
-          placeholder="Ecrivez vot' message"
-          v-bind:class="{dragging: isDragging}"/>
+          placeholder="Ecrivez vot' message" />
           <button :disabled="loading" @click="mutate()">Envoyer</button>
           <p v-if="error">An error occured: {{ error }}</p>
         </template>
@@ -35,16 +34,26 @@
             <div
             v-else-if='data'
             v-for='article of data.tousLesArticles.slice().reverse()'
-            :key='article._id'
+            :key='article.id'
             class="article">
-              <p><span v-show="!edit">{{article.texte}}</span>
-              <input v-show="edit" :value="article.texte" /><svg
-              @click="editerTexte"
-              id="i-edit" viewBox="0 0 32 32" width="32" height="32" fill="none"
-              stroke="currentcolor" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="1">
-                  <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z" />
-              </svg>
-              </p>
+              <p><span v-show='!edit'>{{article.texte}}</span> </p>
+              <ApolloMutation
+              :mutation="require('../graphql/ModifierArticle.gql')"
+              @done='msgModifie'>
+                <template slot-scope="{mutate, loading, error}">
+                  <textarea v-show="edit" :value="article.texte" />
+                  <p v-if="error">An error occured: {{ error }}</p>
+                </template>
+              </ApolloMutation>
+              <div class="options">
+                <svg
+                @click="editerTexte"
+                id="i-edit" viewBox="0 0 32 32" width="24" height="24" fill="none"
+                stroke="currentcolor" stroke-linecap="butt" stroke-linejoin="miter"
+                stroke-width="1">
+                    <path d="M30 7 L25 2 5 22 3 29 10 27 Z M21 6 L26 11 Z M5 22 L10 27 Z" />
+                </svg>
+              </div>
 
 
             </div>
@@ -79,6 +88,7 @@ export default {
     msgEnvoye() {
       this.texte = '';
     },
+    msgModifie() {},
     surArticleAjoute(previousResult, { subscriptionData }) {
       return {
         tousLesArticles: [
@@ -134,6 +144,7 @@ button:focus, input[type='button']::-moz-focus-inner{
 }
 .article {
    background: rgb(236, 187, 24);
+   position: relative;
    width: 300px;
    padding: 10px;
    margin-top: 20px;
@@ -143,7 +154,12 @@ button:focus, input[type='button']::-moz-focus-inner{
 .dragging{
   background:  rgb(236, 24, 24);
 }
-svg{
-  float: right;
+
+.options{
+  position:absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
 }
+
 </style>

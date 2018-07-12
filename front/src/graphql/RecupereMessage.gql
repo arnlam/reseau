@@ -1,5 +1,6 @@
 query RecupereMessage {
   tousLesArticles {
     texte
+    id
   }
 }

@@ -1,0 +1,5 @@
+mutation modifierArticle($id: String, $texte: String) {
+  modifierArticle(id: $id, texte: $texte) {
+    texte
+  }
+}

@@ -10,9 +10,9 @@ type Auteur {
   articles: [Article]
 }
 
-type Article{
-  id: String !
-  texte: String !
+type Article {
+  id: String!
+  texte: String!
   vues: Int
   auteur: String
 }
@@ -47,7 +47,7 @@ type Mutation {
 
   # MUTATION ARTICLE
   creerArticle(input: InputArticle) : Article
-  updateArticle(id:String!, input: InputArticle) : Article
+  modifierArticle(id:String!, input: InputArticle) : Article
   supprimeArticle(id:String!) : Article
 
   # MUTATION VUE

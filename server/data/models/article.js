@@ -6,6 +6,10 @@ const SchemaArticle = new Mongoose.Schema({
     type: String,
     required: true
   },
+  id: {
+    type: String,
+    required: true
+  },
   vues: Number,
   auteur: String
 });

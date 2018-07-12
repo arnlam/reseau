@@ -41,10 +41,11 @@ const resolvers = {
         id: shortid.generate()
       }
       await Article.create(message);
+      console.log(message)
       pubsub.publish('articleAjoute', { articleAjoute: message })
       return message
     },
-    async updateArticle(root, { id, input }) {
+    async modifierArticle(root, { id, input }) {
       return await Article.findOneAndUpdate({ id }, input, { new: true });
     },
     async supprimeArticle(root, { id }){
