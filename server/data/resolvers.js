@@ -46,6 +46,7 @@ const resolvers = {
       return message
     },
     async modifierArticle(root, { id, input }) {
+      console.log('coucou')
       return await Article.findOneAndUpdate({ id }, input, { new: true });
     },
     async supprimeArticle(root, { id }){

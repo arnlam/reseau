@@ -39,10 +39,15 @@
               <p><span v-show='!edit'>{{article.texte}}</span> </p>
               <ApolloMutation
               :mutation="require('../graphql/ModifierArticle.gql')"
+              :variables="{
+                id,
+                texte
+              }"
               @done='msgModifie'>
                 <template slot-scope="{mutate, loading, error}">
                   <textarea v-show="edit" :value="article.texte" />
                   <p v-if="error">An error occured: {{ error }}</p>
+                  <button v-show="edit" @click="mutate()">Modifier</button>
                 </template>
               </ApolloMutation>
               <div class="options">
@@ -139,22 +144,51 @@ button {
 }
 button:focus, input[type='button']::-moz-focus-inner{
   border:2px solid rgb(236, 187, 24);
-  background: rgb(236, 187, 24);
+  background: #ffff00;
   outline: none!important;
 }
 .article {
-   background: rgb(236, 187, 24);
+   background:#ffff00;
    position: relative;
    width: 300px;
    padding: 10px;
    margin-top: 20px;
    margin-bottom: 20px;
-   box-shadow: 6px 6px 0 0 rgba(236, 187, 24, 0.4);
+   box-shadow: 6px 6px 0 0 grey;
+   --borderWidth: 6px;
+   border-radius: var(--borderWidth);
 }
-.dragging{
-  background:  rgb(236, 24, 24);
+.article:hover{
+    box-shadow: unset;
+}
+.article:hover:after {
+  content: '';
+
+  position: absolute;
+  top: calc(-1 * var(--borderWidth));
+  left: calc(-1 * var(--borderWidth));
+  height: calc(100% + var(--borderWidth) * 2);
+  width: calc(100% + var(--borderWidth) * 2);
+  background: linear-gradient(
+    60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82
+    );
+  border-radius: var(--borderWidth);
+  z-index: -1;
+  animation: animatedgradient 3s ease alternate infinite;
+  background-size: 300% 300%;
 }
 
+@keyframes animatedgradient {
+0% {background-position: 0% 50%;}
+50% {background-position: 100% 50%;}
+100% {background-position: 0% 50%;}
+}
+
+
+svg:hover{
+  stroke: lightpink;
+  fill: black;
+}
 .options{
   position:absolute;
   top: 5px;

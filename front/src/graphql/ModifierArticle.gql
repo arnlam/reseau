@@ -1,5 +1,6 @@
-mutation modifierArticle($id: String, $texte: String) {
-  modifierArticle(id: $id, texte: $texte) {
-    texte
+  mutation modifierArticle($id: String!, $input: InputArticle) {
+    modifierArticle(id: $id, input: $input) {
+   	 	id
+      texte    
   }
-}
+  }

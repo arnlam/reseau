@@ -13,6 +13,7 @@ body {
   font-family: 'Roboto Mono', serif;
   display: flex;
   justify-content: center;
+  background-color: lightyellow;
 }
 
 
