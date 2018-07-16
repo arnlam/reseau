@@ -35,15 +35,15 @@
             v-else-if='data'
             v-for='article of data.tousLesArticles.slice().reverse()'
             :key='article.id'
-            class="article">
+            class='article'
+            >
               <p><span v-show='!edit'>{{article.texte}}</span> </p>
               <ApolloMutation
-              :mutation="require('../graphql/ModifierArticle.gql')"
-              :variables="{
-                id,
-                texte
-              }"
-              @done='msgModifie'>
+              :mutation='require("../graphql/ModifierArticle.gql")'
+              :variables='{
+                id: article.id,
+                texte: texteModif
+              }'>
                 <template slot-scope="{mutate, loading, error}">
                   <textarea v-show="edit" :value="article.texte" />
                   <p v-if="error">An error occured: {{ error }}</p>
@@ -52,7 +52,7 @@
               </ApolloMutation>
               <div class="options">
                 <svg
-                @click="editerTexte"
+                @click="editerTexte()"
                 id="i-edit" viewBox="0 0 32 32" width="24" height="24" fill="none"
                 stroke="currentcolor" stroke-linecap="butt" stroke-linejoin="miter"
                 stroke-width="1">
@@ -93,7 +93,6 @@ export default {
     msgEnvoye() {
       this.texte = '';
     },
-    msgModifie() {},
     surArticleAjoute(previousResult, { subscriptionData }) {
       return {
         tousLesArticles: [

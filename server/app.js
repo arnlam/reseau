@@ -3,8 +3,9 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import Mongoose from 'mongoose';
-import indexRouter from './routes/index';
+// import indexRouter from './routes/index';
 import cors from 'cors';
+import {onUpload, onDeleteFile } from './middleware/upload';
 
 
 const app = express();
@@ -23,6 +24,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // routes
+app.post("/uploads", onUpload);
+app.delete("/uploads/:uuid", onDeleteFile);
+
 // app.use('/', path.join(__dirname, '../front/public'))
 // app.use('/', indexRouter);
 
