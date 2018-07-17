@@ -1,6 +1,7 @@
 import Auteur from './models/auteur';
 import Vue from './models/vue';
 import Article from './models/article';
+import Commentaire from './models/commentaire';
 import { PubSub } from 'graphql-subscriptions';
 import shortid from 'shortid';
 const pubsub = new PubSub();
@@ -21,6 +22,11 @@ const resolvers = {
     async tousLesArticles() {
       return await Article.find();
     },
+  // * QUERY COMMENTAIRES * //
+    async commentairesArticle(root, { articleId }) {
+      return await Commentaire.findOne(articleId)
+    }
+  
   },
   Mutation: {
     // * AUTEURS MUTATION * //
@@ -45,6 +51,18 @@ const resolvers = {
       pubsub.publish('articleAjoute', { articleAjoute: message })
       return message
     },
+    async creerCommentaire(root, { input }, context) {
+      console.log({input})
+      const message = {
+        texte: input.texte,
+        id: shortid.generate()
+      }
+      await Commentaire.create(message);
+      console.log(message)
+      pubsub.publish('commentaireAjoute', { commentaireAjoute: message })
+      return message
+    },
+
     async modifierArticle(root, { id, input }) {
       console.log('coucou')
       return await Article.findOneAndUpdate({ id }, input, { new: true });
@@ -67,7 +85,6 @@ const resolvers = {
       return { id: 1, prenom: 'Hello', nom: 'World' };
     }
   },
-
 };
 
 export default resolvers;

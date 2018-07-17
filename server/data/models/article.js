@@ -1,7 +1,6 @@
 const Mongoose = require('mongoose');
 
 const SchemaArticle = new Mongoose.Schema({
-  articleId: Number,
   texte: {
     type: String,
     required: true

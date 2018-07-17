@@ -15,6 +15,13 @@ type Article {
   texte: String!
   vues: Int
   auteur: String
+  commentaires: [Commentaire!]
+}
+type Commentaire {
+  id: String!
+  articleId: String!
+  texte: String!
+  auteur: String
 }
 
 # //// INPUT ////
@@ -28,6 +35,11 @@ input InputArticle {
   texte: String!
   auteur: String
 }
+input InputCommentaire {
+  texte: String!
+  articleId: String!
+  auteur: String
+}
 
 # //// QUERY ////
 
@@ -36,6 +48,7 @@ type Query {
   tousLesAuteurs: [Auteur]
   article(id: String!): Article
   tousLesArticles: [Article]
+  commentairesArticle(articleId:String!): [Commentaire]
 }
 
 # //// MUTATION ////
@@ -49,6 +62,9 @@ type Mutation {
   creerArticle(input: InputArticle) : Article
   modifierArticle(id:String!, input: InputArticle) : Article
   supprimeArticle(id:String!) : Article
+  
+  # MUTATION COMMENTAIRE
+  creerCommentaire(input:InputArticle) : Commentaire
 
   # MUTATION VUE
   ajoutVue(articleId:String!): Article
