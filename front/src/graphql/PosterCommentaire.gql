@@ -1,0 +1,6 @@
+mutation creerCommentaire($input: InputCommentaire) {
+  creerCommentaire (input: {articleId: "uKci-i0f8", texte: "coucou"}) {
+    texte
+    id
+  }
+}

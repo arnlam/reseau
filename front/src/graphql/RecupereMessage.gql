@@ -2,5 +2,9 @@ query RecupereMessage {
   tousLesArticles {
     texte
     id
+    commentaires{
+      texte
+      id
+    }
   }
 }

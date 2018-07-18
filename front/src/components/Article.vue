@@ -47,7 +47,6 @@ export default {
     };
   },
   methods: {
-
     surArticleAjoute(previousResult, { subscriptionData }) {
       return {
         tousLesArticles: [

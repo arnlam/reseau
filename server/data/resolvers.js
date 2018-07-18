@@ -19,13 +19,13 @@ const resolvers = {
     async article(root, { id }) {
       return await Article.findOne(id);
     },
-    async tousLesArticles() {
+    async tousLesArticles(root, args) {
       return await Article.find();
     },
-  // * QUERY COMMENTAIRES * //
-      async commentaires(root, args) {
-        return await Commentaire.findOne(root.articleId)
-    }
+    // async commentaires(article){
+    //   console.log('iii')
+    //   return await Commentaire.find(article.articleId);
+    // }
   
   },
   Mutation: {
@@ -44,7 +44,7 @@ const resolvers = {
       console.log({input})
       const message = {
         texte: input.texte,
-        id: shortid.generate()
+        id: shortid.generate(),
       }
       await Article.create(message);
       console.log(message)
@@ -82,8 +82,9 @@ const resolvers = {
   },
   // 
   Article: {
-    auteur(article) {
-      return { id: 1, prenom: 'Hello', nom: 'World' };
+    async commentaires(article) {
+      console.log(article)
+      return await Commentaire.find({articleId: article.id});
     }
   },
 };
