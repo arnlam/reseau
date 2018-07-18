@@ -23,8 +23,8 @@ const resolvers = {
       return await Article.find();
     },
   // * QUERY COMMENTAIRES * //
-    async commentairesArticle(root, { articleId }) {
-      return await Commentaire.findOne(articleId)
+      async commentaires(root, args) {
+        return await Commentaire.findOne(root.articleId)
     }
   
   },
@@ -55,6 +55,7 @@ const resolvers = {
       console.log({input})
       const message = {
         texte: input.texte,
+        articleId: input.articleId,
         id: shortid.generate()
       }
       await Commentaire.create(message);

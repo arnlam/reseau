@@ -15,7 +15,7 @@ type Article {
   texte: String!
   vues: Int
   auteur: String
-  commentaires: [Commentaire!]
+  commentaires: [Commentaire]
 }
 type Commentaire {
   id: String!
@@ -48,7 +48,7 @@ type Query {
   tousLesAuteurs: [Auteur]
   article(id: String!): Article
   tousLesArticles: [Article]
-  commentairesArticle(articleId:String!): [Commentaire]
+  commentaires(articleId:String!): [Commentaire]
 }
 
 # //// MUTATION ////
@@ -64,7 +64,7 @@ type Mutation {
   supprimeArticle(id:String!) : Article
   
   # MUTATION COMMENTAIRE
-  creerCommentaire(input:InputArticle) : Commentaire
+  creerCommentaire(input:InputCommentaire) : Commentaire
 
   # MUTATION VUE
   ajoutVue(articleId:String!): Article

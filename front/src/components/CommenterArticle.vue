@@ -48,6 +48,11 @@
 <script>
 
 export default {
+  props: {
+    commentaire: {
+      type: Array,
+    },
+  },
   data() {
     return {
       edit: false,
