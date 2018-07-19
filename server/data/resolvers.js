@@ -31,6 +31,8 @@ const resolvers = {
   Mutation: {
     // * AUTEURS MUTATION * //
     async creerAuteur(root, { input }) {
+      Object.assign(input, {id: shortid.generate()})
+      console.log(input)
       return await Auteur.create(input);
     },
     async updateAuteur(root, { id, input }) {
@@ -56,7 +58,7 @@ const resolvers = {
       const message = {
         texte: input.texte,
         articleId: input.articleId,
-        id: shortid.generate()
+        id: shortid.generate(),
       }
       await Commentaire.create(message);
       console.log(message)

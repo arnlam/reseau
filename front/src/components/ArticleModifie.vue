@@ -45,14 +45,6 @@ export default {
     modifier() {
       this.edit = !this.edit;
     },
-    surArticleAjoute(previousResult, { subscriptionData }) {
-      return {
-        tousLesArticles: [
-          ...previousResult.tousLesArticles,
-          subscriptionData.data.articleAjoute,
-        ],
-      };
-    },
   },
 };
 
@@ -60,56 +52,7 @@ export default {
 
 
 <style scoped>
-.article {
- background: #ffff00;
- position: relative;
- width: 300px;
- padding: 10px;
- margin-top: 20px;
- margin-bottom: 20px;
- box-shadow: 6px 6px 0 0 grey;
- --borderWidth: 6px;
- border-radius: var(--borderWidth);
-}
-.article:hover {
- box-shadow: unset;
-}
-.article:hover:after {
- content: '';
 
- position: absolute;
- top: calc(-1 * var(--borderWidth));
- left: calc(-1 * var(--borderWidth));
- height: calc(100% + var(--borderWidth) * 2);
- width: calc(100% + var(--borderWidth) * 2);
- background: linear-gradient(
-  60deg,
-  #f79533,
-  #f37055,
-  #ef4e7b,
-  #a166ab,
-  #5073b8,
-  #1098ad,
-  #07b39b,
-  #6fba82
- );
- border-radius: var(--borderWidth);
- z-index: -1;
- animation: animatedgradient 3s ease alternate infinite;
- background-size: 300% 300%;
-}
-
-@keyframes animatedgradient {
- 0% {
-  background-position: 0% 50%;
- }
- 50% {
-  background-position: 100% 50%;
- }
- 100% {
-  background-position: 0% 50%;
- }
-}
 
 svg:hover {
  stroke: lightpink;

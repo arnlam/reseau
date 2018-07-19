@@ -18,8 +18,13 @@
           <ArticleModifie
             :variables='{id: article.id, texte: article.texte}'
             />
-          <CommenterArticle
-            :commentaire="commentaire"/>
+          <ApolloSubscribeToMore
+          :document='require("../graphql/CommentaireAjoute.gql")'
+          :updateQuery='surCommentaireAjoute'
+          :variables='{ canal }' />
+          <AfficherCommentaires
+            :commentaires="article.commentaires"
+            :articleId="article.id"/>
 
           </div>
           <div v-else>Aucun résultat</div>
@@ -32,22 +37,23 @@
 <script>
 
 import ArticleModifie from './ArticleModifie.vue';
-import CommenterArticle from './CommenterArticle.vue';
+import AfficherCommentaires from './coms/AfficherCommentaires.vue';
 
 export default {
   components: {
     ArticleModifie,
-    CommenterArticle,
+    AfficherCommentaires,
   },
   data() {
     return {
       texte: '',
       canal: 'general',
-      commentaire: [{ texte: 'coucou', id: '1234' }],
     };
   },
   methods: {
     surArticleAjoute(previousResult, { subscriptionData }) {
+      const nouvelArticle = subscriptionData.data.articleAjoute;
+      nouvelArticle.commentaires = [];
       return {
         tousLesArticles: [
           ...previousResult.tousLesArticles,
@@ -55,6 +61,15 @@ export default {
         ],
       };
     },
+    // surCommentaireAjoute(previousResult, { subscriptionData }) {
+    //   const articleCommente = previousResult.tousLesArticles.filter()
+    //   return {
+    //     tousLesArticles: [
+    //       ...previousResult.tousLesArticles,
+    //       subscriptionData.data.articleAjoute,
+    //     ],
+    //   };
+    // },
   },
 };
 
@@ -115,14 +130,5 @@ export default {
 input{
   border-radius: 5px;
 }
-svg:hover {
- stroke: lightpink;
- fill: black;
-}
-.options {
- position: absolute;
- top: 5px;
- right: 5px;
- cursor: pointer;
-}
+
 </style>
