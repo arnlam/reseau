@@ -18,7 +18,8 @@
           <p v-if="error">An error occured: {{ error }}</p>
         </template>
       </ApolloMutation>
-      <Article />
+      <Article
+      :tousLesArticles='{}' />
   </div>
 
 </template>

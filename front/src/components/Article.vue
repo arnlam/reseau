@@ -5,23 +5,23 @@
         <ApolloSubscribeToMore
         :document='require("../graphql/ArticleAjoute.gql")'
         :updateQuery='surArticleAjoute'
-        :variables='{ canal }' />
+        />
         <template slot-scope='{result: {loading, error, data}}'>
           <div v-if='loading'> Loading...</div>
           <div v-else-if='error'>Une erreur</div>
           <div
           v-else-if='data'
-          v-for='article of data.tousLesArticles.slice().reverse()'
+          v-for='article of articles.slice().reverse()'
           :key='article.id'
           class='article'
           >
           <ArticleModifie
             :variables='{id: article.id, texte: article.texte}'
             />
-          <ApolloSubscribeToMore
+          <!-- <ApolloSubscribeToMore
           :document='require("../graphql/CommentaireAjoute.gql")'
           :updateQuery='surCommentaireAjoute'
-          :variables='{ canal }' />
+          :variables='{ canal }' /> -->
           <AfficherCommentaires
             :commentaires="article.commentaires"
             :articleId="article.id"/>
@@ -44,10 +44,13 @@ export default {
     ArticleModifie,
     AfficherCommentaires,
   },
+
   data() {
     return {
       texte: '',
       canal: 'general',
+      postes: {},
+      articles: [],
     };
   },
   methods: {
