@@ -2,16 +2,16 @@
   <div id="article">
     <ApolloQuery
       :query='require("../graphql/RecupereMessage.gql")'>
-        <ApolloSubscribeToMore
+        <!-- <ApolloSubscribeToMore
         :document='require("../graphql/ArticleAjoute.gql")'
         :updateQuery='surArticleAjoute'
-        />
+        /> -->
         <template slot-scope='{result: {loading, error, data}}'>
           <div v-if='loading'> Loading...</div>
           <div v-else-if='error'>Une erreur</div>
           <div
           v-else-if='data'
-          v-for='article of articles.slice().reverse()'
+          v-for='article of data.tousLesArticles.slice().reverse()'
           :key='article.id'
           class='article'
           >
@@ -22,9 +22,9 @@
           :document='require("../graphql/CommentaireAjoute.gql")'
           :updateQuery='surCommentaireAjoute'
           :variables='{ canal }' /> -->
-          <AfficherCommentaires
+          <!-- <AfficherCommentaires
             :commentaires="article.commentaires"
-            :articleId="article.id"/>
+            :articleId="article.id"/> -->
 
           </div>
           <div v-else>Aucun résultat</div>
@@ -37,30 +37,29 @@
 <script>
 
 import ArticleModifie from './ArticleModifie.vue';
-import AfficherCommentaires from './coms/AfficherCommentaires.vue';
+// import AfficherCommentaires from './coms/AfficherCommentaires.vue';
 
 export default {
   components: {
     ArticleModifie,
-    AfficherCommentaires,
+    // AfficherCommentaires,
   },
 
   data() {
     return {
       texte: '',
       canal: 'general',
-      postes: {},
-      articles: [],
+      tousLesArticles : []
     };
   },
   methods: {
     surArticleAjoute(previousResult, { subscriptionData }) {
-      const nouvelArticle = subscriptionData.data.articleAjoute;
+      const nouvelArticle = subscriptionData.tousLesArticles.articleAjoute;
       nouvelArticle.commentaires = [];
       return {
         tousLesArticles: [
           ...previousResult.tousLesArticles,
-          subscriptionData.data.articleAjoute,
+          subscriptionData.tousLesArticles.articleAjoute,
         ],
       };
     },
