@@ -2,24 +2,32 @@
 
 
   <div id='poste'>
+     <v-layout justify-center>
+    <v-flex xs12 sm8 md6>
         <h3>Poste !</h3>
         <ApolloMutation
         :mutation="require('../graphql/PosteMessage.gql')"
         :variables="{
-          texte
+          texte : texte,
+          auteur: userId
         }"
         @done="msgEnvoye"
         >
         <template slot-scope="{ mutate, loading, error }">
-          <textarea
+          <v-textarea
+          color="orange lighten-1"
+          box
+          auto-grow
           v-model="texte"
           placeholder="Ecrivez vot' message" />
-          <button class='bouton' :disabled="loading" @click="mutate()">Envoyer</button>
+          <button class='bouton' :disabled="loading || !texte" @click="mutate()">Envoyer</button>
           <p v-if="error">An error occured: {{ error }}</p>
         </template>
       </ApolloMutation>
       <Article
       :tousLesArticles='{}' />
+    </v-flex>
+     </v-layout>
   </div>
 
 </template>
@@ -43,9 +51,15 @@ export default {
     resizeTextarea() {
     },
     msgEnvoye() {
+      console.log(this.userId)
       this.texte = '';
     },
   },
+  computed: {
+      userId () {
+        return this.$root.$data.userId
+      }
+    }
 };
 </script>
 
@@ -53,7 +67,7 @@ export default {
 body{
   font-family: 'Roboto Mono';
 }
-#poste {
+/* #poste {
   text-align: center;
   margin: 60px;
   width: 370px;
@@ -61,9 +75,9 @@ body{
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
+} */
 
-textarea {
+/* textarea {
   border: 2px solid black;
   background: white;
   padding: 10px 15px;
@@ -73,7 +87,7 @@ textarea {
   resize: none;
   cursor: pointer;
   box-shadow: 6px 6px 0 0 rgba(0,0,0,1);
-}
+} */
 
 .bouton {
   font-family: 'Roboto Mono';

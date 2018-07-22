@@ -1,0 +1,10 @@
+
+mutation verifLogin($login: String!, $password: String!){
+  verifLogin(input: {
+      login: $login,
+      password: $password
+    }){
+    token
+    id
+  }
+}

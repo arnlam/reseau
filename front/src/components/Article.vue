@@ -1,5 +1,18 @@
 <template>
   <div id="article">
+      <v-card>
+        <v-toolbar color="orange lighten-1" dark>
+          <v-toolbar-side-icon></v-toolbar-side-icon>
+
+          <v-toolbar-title>Message Board</v-toolbar-title>
+
+          <v-spacer></v-spacer>
+
+          <v-btn icon>
+            <v-icon>search</v-icon>
+          </v-btn>
+        </v-toolbar>
+         <v-list dense three-line >
     <ApolloQuery
       :query='require("../graphql/RecupereMessage.gql")'>
         <!-- <ApolloSubscribeToMore
@@ -9,15 +22,47 @@
         <template slot-scope='{result: {loading, error, data}}'>
           <div v-if='loading'> Loading...</div>
           <div v-else-if='error'>Une erreur</div>
-          <div
-          v-else-if='data'
-          v-for='article of data.tousLesArticles.slice().reverse()'
-          :key='article.id'
-          class='article'
+          <div v-else-if='data'>
+          <template
+            v-for='(article, index) of data.tousLesArticles.slice().reverse()'
           >
-          <ArticleModifie
+             <!-- <v-subheader
+             :key="index">
+              Aujourd'hui
+            </v-subheader> -->
+          <v-list-tile :key="index">
+              <v-list-tile-avatar>
+                <img src="https://pbs.twimg.com/profile_images/546546706004082688/TvhLk_H2_400x400.jpeg">
+              </v-list-tile-avatar>
+           <v-list-tile-content>
+                <v-list-tile-sub-title class="text--primary">{{ article.texte }}</v-list-tile-sub-title>
+              </v-list-tile-content>
+               <v-list-tile-action>
+                <v-list-tile-action-text>15mn</v-list-tile-action-text>
+                <v-icon color="grey lighten-1">star_border</v-icon>
+              </v-list-tile-action>
+            
+          </v-list-tile>
+           <v-divider            
+              inset
+              :key="index"
+            ></v-divider>
+  
+               <v-list-tile-sub-title  :key="index" >
+            <v-icon>add_comment</v-icon> Ajouter un commentaire
+
+               </v-list-tile-sub-title>
+
+ 
+               <v-divider            
+              inset
+              :key="index"
+            ></v-divider>
+
+
+          <!-- <ArticleModifie
             :variables='{id: article.id, texte: article.texte}'
-            />
+            /> -->
           <!-- <ApolloSubscribeToMore
           :document='require("../graphql/CommentaireAjoute.gql")'
           :updateQuery='surCommentaireAjoute'
@@ -26,11 +71,14 @@
             :commentaires="article.commentaires"
             :articleId="article.id"/> -->
 
+          </template>
           </div>
           <div v-else>Aucun résultat</div>
           <button class="bouton">Voir plus</button>
         </template>
     </ApolloQuery>
+         </v-list>
+      </v-card>
   </div>
 </template>
 

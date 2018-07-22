@@ -1,0 +1,8 @@
+mutation modifierAuteur($id: String!, $input: InputAuteur) {
+  modifierAuteur(id: $id, input: $input) {
+    prenom
+    nom
+    email
+    ville
+  }
+}

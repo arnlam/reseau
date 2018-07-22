@@ -2,7 +2,13 @@ const Mongoose = require('mongoose');
 
 
 const SchemaAuteur = new Mongoose.Schema({
-  id: Number,
+  id: String,
+  login: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true
+  },
   prenom: {
     type: String,
     required: true
@@ -11,8 +17,52 @@ const SchemaAuteur = new Mongoose.Schema({
     type: String,
     required: true
   },
-  articles: Array
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true
+  },
+  password: {
+    type:String,
+    required: true
+  },
+  ville: {
+    type: String
+  },
+  amis: Array
 });
+
+// SchemaAuteur.pre('create', function (next) {
+//   var user = this;
+//   console.log('PREEE')
+//   if (this.isModified('password') || this.isNew) {
+//       bcrypt.genSalt(10, function (err, salt) {
+//           if (err) {
+//               return next(err);
+//           }
+//           bcrypt.hash(user.password, salt, null, function (err, hash) {
+//               if (err) {
+//                   return next(err);
+//               }
+//               user.password = hash;
+//               console.log(user.password)
+//               next();
+//           });
+//       });
+//   } else {
+//       return next();
+//   }
+// });
+
+// SchemaAuteur.methods.comparePassword = function (passw, cb) {
+//   bcrypt.compare(passw, this.password, function (err, isMatch) {
+//       if (err) {
+//           return cb(err);
+//       }
+//       cb(null, isMatch);
+//   });
+// };
 
 const Auteur = Mongoose.model('auteurs', SchemaAuteur);
 

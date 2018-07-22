@@ -1,0 +1,7 @@
+mutation creerAuteur($input: InputAuteur) {
+  creerAuteur( input: $input){
+      prenom
+      nom
+      id
+    }
+}

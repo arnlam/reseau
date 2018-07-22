@@ -1,21 +1,38 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
-import About from './views/About.vue';
+import Maison from './views/Maison.vue';
+import Accueil from './views/Accueil.vue';
+import Moi from './views/Moi.vue';
 
 Vue.use(Router);
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home,
+      name: 'maison',
+      component: Maison,
     },
     {
-      path: '/about',
-      name: 'about',
-      component: About,
+      path: '/login',
+      name: 'login',
+      component: Accueil,
+    },
+    {
+      path: '/moi',
+      name: 'moi',
+      component: Moi,
     },
   ],
 });
+
+// router.map({
+//   // ...
+//   '/auth/login': { name: 'login', component: LoginView },
+//   '/auth/register':  { name: 'register', component: RegisterView },
+//  // ...
+// });
+
+// <navigation v-if="['login', 'register'].indexOf($route.name) > -1"></navigation>
+{/* <body :class="{ 'auth': $route.path==='/auth/register' || $route.path==='/auth/login' }"> */}

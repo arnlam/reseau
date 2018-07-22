@@ -8,7 +8,7 @@
       >
         <template slot-scope="{mutate, loading, error}">
           <textarea v-show="edit" v-model="texte" />
-          <p v-if="error">An error occured: {{ error }}</p>
+          <p v-if="error">Erreur lors de la sauvegarde: {{ error }}</p>
           <button class="bouton" v-show="edit" @click="mutate()">Modifier</button>
         </template>
       </ApolloMutation>

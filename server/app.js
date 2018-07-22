@@ -3,9 +3,11 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import Mongoose from 'mongoose';
+
 // import indexRouter from './routes/index';
 import cors from 'cors';
 //import {onUpload, onDeleteFile } from './middleware/upload';
+
 
 
 const app = express();
@@ -14,6 +16,13 @@ app.use(cors());
 Mongoose.Promise = global.Promise;
 Mongoose.connect('mongodb://localhost:27017/reseau', { useNewUrlParser: true });
 
+// app.use('/api', bodyParser.json(), auth, graphqlExpress(req => ({
+//   schema,
+//   context: {
+//     user: req.user
+//   }
+// }))
+// )
 
 
 // config app
