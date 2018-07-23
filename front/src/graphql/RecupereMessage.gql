@@ -2,6 +2,11 @@ query RecupereMessage {
   tousLesArticles {
     texte
     id
+    auteur{
+      prenom
+      nom
+      id
+    }
     commentaires{
       texte
       id

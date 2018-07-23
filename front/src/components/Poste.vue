@@ -1,7 +1,5 @@
 <template>
 
-
-  <div id='poste'>
      <v-layout justify-center>
     <v-flex xs12 sm8 md6>
         <h3>Poste !</h3>
@@ -28,7 +26,7 @@
       :tousLesArticles='{}' />
     </v-flex>
      </v-layout>
-  </div>
+
 
 </template>
 
@@ -53,6 +51,7 @@ export default {
     msgEnvoye() {
       console.log(this.userId)
       this.texte = '';
+      this.$router.go();
     },
   },
   computed: {
