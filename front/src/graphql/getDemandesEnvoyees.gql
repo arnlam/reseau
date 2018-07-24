@@ -1,0 +1,14 @@
+query auteur($id: String!){
+  auteur(id: $id){
+    id
+    nom
+    prenom
+    demandesEnvoyees {
+      id
+      personne {
+        prenom
+        nom
+      }
+    }
+	}
+}

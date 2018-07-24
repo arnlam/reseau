@@ -65,7 +65,7 @@
     },
     methods: {
       voirProfil(){
-        this.$router.replace('/moi')
+        this.$router.replace('/membre/'+this.userId)
       }
     },
     data() {

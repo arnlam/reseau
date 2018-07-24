@@ -22,7 +22,7 @@
           <p v-if="error">An error occured: {{ error }}</p>
         </template>
       </ApolloMutation>
-      <Article
+      <Timeline 
       :tousLesArticles='{}' />
     </v-flex>
      </v-layout>
@@ -32,11 +32,11 @@
 
 
 <script>
-import Article from './Article.vue';
+import Timeline from './Timeline.vue';
 
 export default {
   components: {
-    Article,
+    Timeline,
   },
   data() {
     return {

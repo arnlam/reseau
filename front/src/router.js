@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Maison from './views/Maison.vue';
 import Accueil from './views/Accueil.vue';
 import Moi from './views/Moi.vue';
+import Utilisateur from './views/Utilisateur.vue';
 
 Vue.use(Router);
 
@@ -24,6 +25,10 @@ export default new Router({
       name: 'moi',
       component: Moi,
     },
+    {
+      path: '/membre/:id', 
+      component: Utilisateur
+    }
   ],
 });
 

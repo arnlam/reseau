@@ -2,7 +2,9 @@ const { gql } = require('apollo-server-express');
 import resolvers from './resolvers';
 import { makeExecutableSchema } from 'graphql-tools'
 
+
 const typeDefs = gql`
+scalar Date
 type Auteur {
   id: String!
   login: String!
@@ -12,6 +14,10 @@ type Auteur {
   ville: String
   password: String
   articles: [Article]
+  creationDate: String
+  amis: [iDDemandes],
+  demandesEnAttente: [iDDemandes],
+  demandesEnvoyees: [iDDemandes],
 }
 
 type Article {
@@ -21,22 +27,30 @@ type Article {
   auteurId: String
   commentaires: [Commentaire]
   auteur: Auteur
+  creationDate: String
 }
 type Commentaire {
   id: String!
   articleId: String!
   texte: String!
   auteurId: String
+  creationDate: String
+  auteurCom: Auteur
 }
 type Token {
   token: String
   id: String
 }
 
+type iDDemandes{
+  id: String!
+  personne: Auteur
+}
+
 # //// INPUT ////
 
 input InputAuteur {
-  login: String
+  login: String!
   prenom: String!
   nom: String!
   email: String
@@ -65,8 +79,10 @@ type Query {
   auteur(id: String!): Auteur
   tousLesAuteurs: [Auteur]
   article(id: String!): Article
-  tousLesArticles: [Article]
+  tousLesArticles(first:Int): [Article]
   commentaires(articleId:String!): [Commentaire]
+  auteurCom(auteurId:String!): Auteur
+  personne(id: String!): Auteur
 }
 
 # //// MUTATION ////

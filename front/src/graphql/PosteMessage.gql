@@ -7,5 +7,6 @@ mutation creerArticle($texte: String!, $auteur: String){
     id
     texte
     auteurId
+    creationDate
   }
 }

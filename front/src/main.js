@@ -6,9 +6,14 @@ import router from './router';
 import store from './store';
 import './registerServiceWorker';
 import { createProvider } from './vue-apollo';
+const moment = require('moment');
+require('moment/locale/fr');
 
 Vue.config.productionTip = false;
 let userId = localStorage.getItem('user-id');
+Vue.use(require('vue-moment'), {
+  moment
+});
 
 router.beforeEach((to, from, next) => { 
   if(to.path == '/') {

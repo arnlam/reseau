@@ -4,6 +4,7 @@
     "fine-uploader": "^5.16.2",
     "mkdirp": "^0.5.1",
     "multiparty": "^4.1.4",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "vue-moment": "^4.0.0"
   }
 }

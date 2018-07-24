@@ -1,15 +1,23 @@
 query RecupereMessage {
-  tousLesArticles {
+  tousLesArticles(first:5) {
     texte
     id
+    creationDate
     auteur{
       prenom
       nom
       id
     }
     commentaires{
-      texte
       id
+      creationDate
+      texte
+      auteurId
+      auteurCom {
+        prenom
+        nom
+        id
+      }
     }
   }
 }

@@ -963,7 +963,7 @@ babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0:
+babel-runtime@6.26.0, babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -1315,6 +1315,10 @@ dicer@0.2.5:
     readable-stream "1.1.x"
     streamsearch "0.1.2"
 
+ducky@2.6.11:
+  version "2.6.11"
+  resolved "https://registry.yarnpkg.com/ducky/-/ducky-2.6.11.tgz#b1ed769398a4b563d3dd55c0b28ab8b93bcfe3de"
+
 ecc-jsbn@~0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/ecc-jsbn/-/ecc-jsbn-0.1.1.tgz#0fc73a9ed5f0d53c38193398523ef7e543777505"
@@ -1650,6 +1654,15 @@ graphql-tag@^2.9.2:
   version "2.9.2"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.9.2.tgz#2f60a5a981375f430bf1e6e95992427dc18af686"
 
+graphql-tools-types@^1.1.25:
+  version "1.1.25"
+  resolved "https://registry.yarnpkg.com/graphql-tools-types/-/graphql-tools-types-1.1.25.tgz#e75f65df9dd0663f3e55367b083a8934a9b17a88"
+  dependencies:
+    babel-runtime "6.26.0"
+    ducky "2.6.11"
+    graphql "0.13.2"
+    pure-uuid "1.5.3"
+
 graphql-tools@^3.0.2, graphql-tools@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/graphql-tools/-/graphql-tools-3.0.4.tgz#d08aa75db111d704cba05d92afd67ec5d1dc6b24"
@@ -1660,7 +1673,7 @@ graphql-tools@^3.0.2, graphql-tools@^3.0.4:
     iterall "^1.1.3"
     uuid "^3.1.0"
 
-graphql@^0.13.2:
+graphql@0.13.2, graphql@^0.13.2:
   version "0.13.2"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.13.2.tgz#4c740ae3c222823e7004096f832e7b93b2108270"
   dependencies:
@@ -2163,7 +2176,7 @@ minizlib@^1.1.0:
   dependencies:
     minimist "0.0.8"
 
-moment@^2.15.2:
+moment@^2.15.2, moment@^2.22.2:
   version "2.22.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 
@@ -2493,6 +2506,10 @@ pseudomap@^1.0.2:
 punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
+
+pure-uuid@1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/pure-uuid/-/pure-uuid-1.5.3.tgz#cafee7e95b5ff96d7fb737346214967e009d5bce"
 
 qs@6.5.1:
   version "6.5.1"

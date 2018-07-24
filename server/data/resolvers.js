@@ -4,6 +4,7 @@ import Article from './models/article';
 import Commentaire from './models/commentaire';
 import { PubSub } from 'graphql-subscriptions';
 import shortid from 'shortid';
+const moment = require ('moment');
 const bcrypt = require('bcrypt')
 const pubsub = new PubSub();
 const settings = require('../config/settings');
@@ -23,7 +24,7 @@ const resolvers = {
       return await Article.findOne(id);
     },
     async tousLesArticles(root, args) {
-      return await Article.find();
+      return await Article.find().sort({creationDate:-1}).limit(args.first);
     },
     async commentaires(article){
       console.log('iii')
@@ -36,7 +37,8 @@ const resolvers = {
     async creerAuteur(root, { input }) {
       Object.assign(input, {
         id: shortid.generate(),
-        password: await bcrypt.hash(input.password, 10)})
+        password: await bcrypt.hash(input.password, 10),
+        creationDate: moment().toISOString()})
       // try{
         return await Auteur.create(input);
     },
@@ -77,6 +79,7 @@ const resolvers = {
         texte: input.texte,
         auteurId: input.auteurId,
         id: shortid.generate(),
+        creationDate: moment().toISOString()
       }
       await Article.create(message);
       console.log(message)
@@ -88,6 +91,8 @@ const resolvers = {
         texte: input.texte,
         articleId: input.articleId,
         id: shortid.generate(),
+        auteurId: input.auteurId,
+        creationDate: moment().toISOString()
       }
       await Commentaire.create(message);
       pubsub.publish('commentaireAjoute', { commentaireAjoute: message })
@@ -118,6 +123,16 @@ const resolvers = {
       return await Auteur.findOne({id: article.auteurId});
     }
   },
+  Commentaire: {
+    async auteurCom(com) {
+      return await Auteur.findOne({id: com.auteurId});
+    }
+  },
+  iDDemandes: {
+    async personne(demande) {
+      return await Auteur.findOne({id: demande.id});
+    }
+  }
   
 };
 

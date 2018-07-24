@@ -10,7 +10,11 @@ const SchemaArticle = new Mongoose.Schema({
     required: true
   },
   vues: Number,
-  auteurId: String
+  auteurId: String,
+  creationDate: {
+    type: Date,
+    required: true
+  }
 });
 
 const Article = Mongoose.model('articles', SchemaArticle);

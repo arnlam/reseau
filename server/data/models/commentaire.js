@@ -13,7 +13,11 @@ const SchemaCommentaire = new Mongoose.Schema({
     type: String,
     required: true
   },
-  auteur: String
+  auteurId: String,
+  creationDate: {
+    type: Date,
+    required: true
+  }
 });
 
 const Commentaire = Mongoose.model('commentaires', SchemaCommentaire);

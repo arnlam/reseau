@@ -30,7 +30,19 @@ const SchemaAuteur = new Mongoose.Schema({
   ville: {
     type: String
   },
-  amis: Array
+  amis: [{
+    id: String
+  }],
+  demandesEnAttente: [{
+    id: String
+  }],
+  demandesEnvoyees: [{
+    id: String
+  }],
+  creationDate: {
+    type: Date,
+    required: true
+  }
 });
 
 // SchemaAuteur.pre('create', function (next) {
