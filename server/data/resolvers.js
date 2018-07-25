@@ -70,9 +70,17 @@ const resolvers = {
       return loginToken
       
     },
+
     async supprimeAuteur(root, { id }){
       return await Auteur.findOneAndRemove({ id });
     },
+
+    async demandeAmi(root, {id, utilisateurId}){
+
+      await Auteur.findOneAndUpdate({id:id}, {$push : {demandesEnvoyees : {id: utilisateurId}}}, {new:true});
+      return await Auteur.findOneAndUpdate({id:utilisateurId}, {$push : {demandesEnAttente : { id: id} }}, {new:true});
+    },
+
     // * ARTICLES MUTATION * //
     async creerArticle(root, { input }, context) {
       const message = {

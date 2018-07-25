@@ -47,6 +47,10 @@ type iDDemandes{
   personne: Auteur
 }
 
+type Contact {
+  id: String
+  utilisateurId:String
+}
 # //// INPUT ////
 
 input InputAuteur {
@@ -93,6 +97,7 @@ type Mutation {
   modifierAuteur(id:String!, input: InputAuteur) : Auteur
   supprimeAuteur(id:String!) : Auteur
   verifLogin(input: InputLogin) : Token
+  demandeAmi(id: String, utilisateurId: String) : Contact
 
   # MUTATION ARTICLE
   creerArticle(input: InputArticle) : Article

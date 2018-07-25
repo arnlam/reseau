@@ -6,8 +6,7 @@
     "start": "nodemon ./bin/www --exec babel-node -e js"
   },
   "dependencies": {
-    "apollo-server-express": "^2.0.0-rc.6",
-    "bcrypt": "^3.0.0",
+     "bcrypt": "^3.0.0",
     "body-parser": "^1.18.3",
     "casual": "^1.5.19",
     "cookie-parser": "~1.4.3",
@@ -31,6 +30,7 @@
     "subscriptions-transport-ws": "^0.9.12"
   },
   "devDependencies": {
+    "@mdi/font": "^2.5.94",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-0": "^6.24.1"
