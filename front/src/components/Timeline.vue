@@ -22,13 +22,14 @@
         <div v-if='loading'> Loading...</div>
         <div v-else-if='error'>Une erreur</div>
         <div v-else-if='data'>
+
           <template v-for='(article, index) of data.tousLesArticles'>
             <Article :key="index" :article="article" :index="index"/>
             <!-- <v-subheader
              :key="index">
               Aujourd'hui
             </v-subheader> -->
-           
+
             <!-- <v-list-tile >
            <v-list-tile-content>
                 <v-list-tile-sub-title class="text--primary">{{ article.texte }}</v-list-tile-sub-title>
@@ -39,18 +40,18 @@
               </v-list-tile-action> -->
 
             <!-- </v-list-tile>
-           <v-divider            
+           <v-divider
               inset
               :key="index"
             ></v-divider>
-  
+
                <v-list-tile-sub-title  :key="index" >
             <v-icon>add_comment</v-icon> Ajouter un commentaire
 
                </v-list-tile-sub-title>
 
- 
-               <v-divider            
+
+               <v-divider
               inset
               :key="index"
             ></v-divider> -->
@@ -68,6 +69,7 @@
             :articleId="article.id"/> -->
 
           </template>
+
         </div>
         <div v-else>Aucun résultat</div>
         <button class="bouton">Voir plus</button>
@@ -78,49 +80,49 @@
 </template>
 
 <script>
-  import Article from './Article.vue'
-  // import ArticleModifie from './ArticleModifie.vue';
-  // import AfficherCommentaires from './coms/AfficherCommentaires.vue';
+import Article from './Article.vue';
+// import ArticleModifie from './ArticleModifie.vue';
+// import AfficherCommentaires from './coms/AfficherCommentaires.vue';
 
-  export default {
-    name: 'Timeline', 
-    components: {
-      Article,
-      // AfficherCommentaires,
-    },
+export default {
+  name: 'Timeline',
+  components: {
+    Article,
+    // AfficherCommentaires,
+  },
 
-    data() {
+  data() {
+    return {
+      texte: '',
+      canal: 'general',
+      tousLesArticles: [],
+      show: false,
+    };
+  },
+  methods: {
+    surArticleAjoute(previousResult, {
+      subscriptionData,
+    }) {
+      const nouvelArticle = subscriptionData.tousLesArticles.articleAjoute;
+      nouvelArticle.commentaires = [];
       return {
-        texte: '',
-        canal: 'general',
-        tousLesArticles: [],
-        show: false
+        tousLesArticles: [
+          ...previousResult.tousLesArticles,
+          subscriptionData.tousLesArticles.articleAjoute,
+        ],
       };
     },
-    methods: {
-      surArticleAjoute(previousResult, {
-        subscriptionData
-      }) {
-        const nouvelArticle = subscriptionData.tousLesArticles.articleAjoute;
-        nouvelArticle.commentaires = [];
-        return {
-          tousLesArticles: [
-            ...previousResult.tousLesArticles,
-            subscriptionData.tousLesArticles.articleAjoute,
-          ],
-        };
-      },
-      // surCommentaireAjoute(previousResult, { subscriptionData }) {
-      //   const articleCommente = previousResult.tousLesArticles.filter()
-      //   return {
-      //     tousLesArticles: [
-      //       ...previousResult.tousLesArticles,
-      //       subscriptionData.data.articleAjoute,
-      //     ],
-      //   };
-      // },
-    },
-  };
+    // surCommentaireAjoute(previousResult, { subscriptionData }) {
+    //   const articleCommente = previousResult.tousLesArticles.filter()
+    //   return {
+    //     tousLesArticles: [
+    //       ...previousResult.tousLesArticles,
+    //       subscriptionData.data.articleAjoute,
+    //     ],
+    //   };
+    // },
+  },
+};
 </script>
 
 

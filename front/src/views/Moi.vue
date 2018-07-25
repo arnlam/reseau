@@ -13,19 +13,20 @@
   </div>
 </template>
 <script>
-  import AfficherProfil from '@/components/AfficherProfil';
-  export default {
-    name: 'moi',
-    components: {
-      AfficherProfil
-    },
-    computed: {
-      userId() {
-        return this.$root.$data.userId
-      }
-    }
+import AfficherProfil from '@/components/AfficherProfil';
 
-  }
+export default {
+  name: 'moi',
+  components: {
+    AfficherProfil,
+  },
+  computed: {
+    userId() {
+      return this.$root.$data.userId;
+    },
+  },
+
+};
 </script>
 
 <style>

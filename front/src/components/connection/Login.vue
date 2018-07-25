@@ -26,11 +26,11 @@
             <v-toolbar-title>S'enregistrer</v-toolbar-title>
 
           </v-toolbar>
-            <ApolloMutation 
-              :mutation="require('../../graphql/CreerAuteur.gql')" 
+            <ApolloMutation
+              :mutation="require('../../graphql/CreerAuteur.gql')"
               :variables="{
                       input: inputRegister
-                    }" 
+                    }"
               @done="confirmation = true; loginSelect = ''">
               <template slot-scope="{ mutate, loading, error }">
           <v-card-text>
@@ -68,63 +68,63 @@
 </template>
 
 <script>
-  export default {
-    name: "login",
-    data() {
-      return {
-        loginSelect: "login",
-        inputRegister: {
-          login: '',
-          nom: '',
-          prenom: '',
-          email: '',
-          password: ''
-        },
-        identifiant: '',
-        motDePasse: '',
-        confirmation: false,
-       };
+export default {
+  name: 'login',
+  data() {
+    return {
+      loginSelect: 'login',
+      inputRegister: {
+        login: '',
+        nom: '',
+        prenom: '',
+        email: '',
+        password: '',
+      },
+      identifiant: '',
+      motDePasse: '',
+      confirmation: false,
+    };
+  },
+  methods: {
+    loginCard() {
+      console.log(this.loginSelect);
+      this.loginSelect = 'login';
+      if (this.confirmation === true) { this.confirmation = false; }
     },
-    methods: {
-      loginCard() {
-        console.log(this.loginSelect)
-          this.loginSelect = "login";
-          if (this.confirmation === true) { this.confirmation = false }
-      },
-      registerCard() {
-          this.loginSelect = "register";
-          if (this.confirmation === true) { this.confirmation = false }
-      },
-      confirm () {
-        if (this.identifiant && this.motDePasse) {
-          console.log(this.identifiant)
-          console.log(this.motDePasse)
-            this.$apollo.mutate({
-            mutation: require('../../graphql/verifLogin.gql'),
-            variables: { login: this.identifiant, password: this.motDePasse }
-          }).then((result) => {
-            const id = result.data.verifLogin.id
-            const token = result.data.verifLogin.token
-            this.saveUserData(id, token)
-            this.$router.replace('/')
-          }).catch((error) => {
-            alert(error)
-          })
-        }
-      },
-      saveUserData (id, token) {
-        localStorage.setItem('user-id', id)
-        localStorage.setItem('auth-token', token)
-        this.$root.$data.userId = localStorage.getItem('user-id')
+    registerCard() {
+      this.loginSelect = 'register';
+      if (this.confirmation === true) { this.confirmation = false; }
+    },
+    confirm() {
+      if (this.identifiant && this.motDePasse) {
+        console.log(this.identifiant);
+        console.log(this.motDePasse);
+        this.$apollo.mutate({
+          mutation: require('../../graphql/verifLogin.gql'),
+          variables: { login: this.identifiant, password: this.motDePasse },
+        }).then((result) => {
+          const id = result.data.verifLogin.id;
+          const token = result.data.verifLogin.token;
+          this.saveUserData(id, token);
+          this.$router.replace('/mur/accueil');
+        }).catch((error) => {
+          alert(error);
+        });
       }
+    },
+    saveUserData(id, token) {
+      localStorage.setItem('user-id', id);
+      localStorage.setItem('auth-token', token);
+      this.$root.$data.userId = localStorage.getItem('user-id');
+    },
 
+  },
+  computed: {
+    userId() {
+      return this.$root.$data.userId;
     },
-     computed: {
-      userId () {
-        return this.$root.$data.userId
-      }
-    }
-  };
+  },
+};
 </script>
 
 <style>

@@ -4,6 +4,10 @@ module.exports = {
   env: {
     node: true
   },
+  
+  globals: { 
+    _: false, 
+  },
 
   'extends': [
     'plugin:vue/essential',

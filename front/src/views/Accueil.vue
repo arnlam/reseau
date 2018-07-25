@@ -6,11 +6,10 @@
 import Login from '@/components/connection/Login.vue';
 
 export default {
-    name: 'accueil',
-    components: {
-        Login
-    }
-}
+  name: 'accueil',
+  components: {
+    Login,
+  },
+};
 </script>
-
 

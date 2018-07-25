@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="pb-2 mb-2">
     <v-container fluid>
       <v-layout>
 
@@ -9,8 +9,9 @@
 
 
         <v-card-text>
+
           Publié par
-          <strong>{{article.auteur.prenom}}</strong>
+       <router-link :to="'/membre/' + article.auteur.id"> <strong>{{article.auteur.prenom}}</strong></router-link>
           <br/> {{article.creationDate | moment('from') }}
         </v-card-text>
 
@@ -21,7 +22,7 @@
         {{ article.texte }}
       </v-card-text>
 
-      <v-card-actions>
+      <v-card-actions class="mb-2">
         <v-layout justify-space-around>
           <v-btn flat @click="show = !show">
             <v-icon class="mr-2">chat</v-icon>
@@ -35,8 +36,8 @@
         </v-layout>
       </v-card-actions>
 
-      <transition-group v-show="show" v-if="article.commentaires.length" name="list" tag="div">
-        <v-flex xs12 d-flex v-for="(com, index) of article.commentaires" :key="'com'+index">
+      <transition-group v-show="show"  name="list" tag="div">
+        <v-flex xs12 d-flex v-if="article.commentaires.length" v-for="(com, index) of article.commentaires" :key="'com'+index">
 
           <v-card>
             <v-container fluid>
@@ -59,46 +60,44 @@
                 <template slot-scope="{mutate, loading, error}">
                   <v-textarea v-model="texte" color="orange lighten-1" box auto-grow placeholder="mon commentaire" />
                   <p v-if="error">An error occured: {{ error }}</p>
-                  <button class="bouton" @click="mutate()">Modifier</button>
+                  <v-btn :disabled="loading || !texte" outline @click="mutate()">Envoyer</v-btn>
                 </template>
               </ApolloMutation>
 
       </transition-group>
 
 
-      <v-divider></v-divider>
-
     </v-container>
   </v-card>
 </template>
 
 <script>
-  export default {
-    props: {
-      article: {
-        type: Object
-      },
-      index: {
-        type: Number
-      }
+export default {
+  props: {
+    article: {
+      type: Object,
     },
-    data() {
-      return {
-        show: false,
-        texte: ''
-      }
+    index: {
+      type: Number,
     },
-    methods: {
-      comEnvoye() {
-        this.texte = ''
-      }
+  },
+  data() {
+    return {
+      show: false,
+      texte: '',
+    };
+  },
+  methods: {
+    comEnvoye() {
+      this.texte = '';
     },
-    computed: {
-      userId() {
-        return this.$root.$data.userId
-      }
-    }
-  }
+  },
+  computed: {
+    userId() {
+      return this.$root.$data.userId;
+    },
+  },
+};
 </script>
 
 <style>

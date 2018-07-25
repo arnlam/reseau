@@ -1,6 +1,6 @@
 <template>
   <div>
-     <ul  
+     <ul
       class="liste-commentaires"
       v-show='edit' >
       <span @click='editerTexte()'>
@@ -26,7 +26,7 @@
         <textarea v-model="texte" />
         <p v-if="error">An error occured: {{ error }}</p>
         <button class="bouton" @click="mutate()">Modifier</button>
-      </template> 
+      </template>
     </ApolloMutation>
     <div class="icone-commentaires" v-show='!edit'>
       <svg
@@ -37,12 +37,11 @@
       stroke-linejoin="round" stroke-width="2">
         <path d="M2 4 L30 4 30 22 16 22 8 29 8 22 2 22 Z" />
       </svg>
-      <div class='nombre-commentaires' 
+      <div class='nombre-commentaires'
       v-if="commentaires.length">
         {{commentaires.length}}
       </div>
     </div>
-
 
 
     </div>
@@ -62,7 +61,7 @@ export default {
   },
   data() {
     return {
-      texte:'',
+      texte: '',
       edit: false,
     };
   },
@@ -70,8 +69,8 @@ export default {
     editerTexte() {
       this.edit = !this.edit;
     },
-    modifier(){
-      this.texte= '';
+    modifier() {
+      this.texte = '';
     },
   },
 };

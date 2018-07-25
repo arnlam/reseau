@@ -10,8 +10,8 @@
         </v-layout>
       </v-container>
     </v-jumbotron>
-    <ApolloMutation 
-    :mutation='require("../graphql/ModifierAuteur.gql")' 
+    <ApolloMutation
+    :mutation='require("../graphql/ModifierAuteur.gql")'
     :variables='{ id: userId, input: auteur }'
     @done="modifier">
       <template slot-scope="{mutate, loading, error}">
@@ -23,15 +23,15 @@
                 <v-btn fab dark small absolute right color="cyan" @click.prevent="edit()">
                   <v-icon dark>edit</v-icon>
                 </v-btn>
-                <v-text-field :disabled="!edition" 
+                <v-text-field :disabled="!edition"
                 v-model="auteur.prenom" label="Prénom" outline></v-text-field>
-                <v-text-field :disabled="!edition" 
+                <v-text-field :disabled="!edition"
                 v-model="auteur.nom" label="Prénom" outline></v-text-field>
-                <v-text-field :disabled="!edition" 
+                <v-text-field :disabled="!edition"
                 v-model="auteur.email" label="E-mail" outline></v-text-field>
-                <v-text-field :disabled="!edition" 
+                <v-text-field :disabled="!edition"
                 v-model="auteur.ville" label="Ville" outline></v-text-field>
-                <v-btn v-show="edition" 
+                <v-btn v-show="edition"
                 @click.prevent="mutate()" color="success">
                   Valider les modifications
                 </v-btn>
@@ -47,39 +47,39 @@
 </template>
 
 <script>
-  export default {
-    name: 'profil',
-    props: {
-      dataA: {
-        type: Object
-      }
+export default {
+  name: 'profil',
+  props: {
+    dataA: {
+      type: Object,
     },
-    data() {
-      return {
-        auteur: {
-          nom: this.dataA.nom,
-          prenom: this.dataA.prenom,
-          email: this.dataA.email,
-          ville: this.dataA.ville
-        },
-        edition: false,
-        gradient: 'to top right, rgba(63,81,181, .7), rgba(25,32,72, .7)'
-      }
-    },
-    methods: {
-      edit() {
-        this.edition = !this.edition
+  },
+  data() {
+    return {
+      auteur: {
+        nom: this.dataA.nom,
+        prenom: this.dataA.prenom,
+        email: this.dataA.email,
+        ville: this.dataA.ville,
       },
-      modifier() {
-        this.$router.go();
-      }
+      edition: false,
+      gradient: 'to top right, rgba(63,81,181, .7), rgba(25,32,72, .7)',
+    };
+  },
+  methods: {
+    edit() {
+      this.edition = !this.edition;
     },
-    computed: {
-      userId() {
-        return this.$root.$data.userId
-      }
-    }
-  }
+    modifier() {
+      this.$router.go();
+    },
+  },
+  computed: {
+    userId() {
+      return this.$root.$data.userId;
+    },
+  },
+};
 </script>
 
 <style>

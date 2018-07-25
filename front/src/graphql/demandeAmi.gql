@@ -1,0 +1,6 @@
+mutation demandeAmi($id:String, $utilisateurId: String){
+  demandeAmi(id:$id, utilisateurId: $utilisateurId){
+    id
+    utilisateurId
+  }
+}

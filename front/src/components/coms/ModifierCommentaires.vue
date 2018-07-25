@@ -8,7 +8,7 @@
       <textarea v-model="texte" />
       <p v-if="error">An error occured: {{ error }}</p>
       <button class="bouton" @click="mutate()">Modifier</button>
-    </template> 
+    </template>
   </ApolloMutation>
 </template>
     <!-- <ApolloMutation
@@ -34,7 +34,7 @@
 <script>
 
 export default {
-    props: {
+  props: {
     commentaires: {
       type: Array,
     },
@@ -44,12 +44,12 @@ export default {
       edit: false,
     };
   },
-  methods:{
+  methods: {
     modifier() {
       vm.$emit('editerTexte');
     },
-  }
-}
+  },
+};
 </script>
 <style scoped>
 .liste-commentaires{

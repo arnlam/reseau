@@ -11,24 +11,34 @@
             <h3 class="display-3">{{auteur.prenom}} {{auteur.nom}}</h3>
             <v-icon>location_city</v-icon>
             <p>{{auteur.ville}}</p>
-              <v-btn
-              v-if="ami === 'encours' || ami === ''"
-              color="pink"
-              dark
-              absolute
-              center
-              right
-              fab
-              @click="ajouteAmi"
-            > 
-            <v-icon v-if="ami === 'encours'">hourglass_empty</v-icon>
-            <v-icon v-else>person_add</v-icon>
-            </v-btn>
-            <v-dialog v-else v-model="dialog" persistent max-width="290">
+
+            <v-tooltip left v-if="demandeAmi === 'encours'">
+              <v-btn slot="activator" color="pink" dark fab>
+                <v-icon>hourglass_empty</v-icon>
+              </v-btn>
+              <span>Demande en cours</span>
+            </v-tooltip>
+
+            <ApolloMutation v-else-if="demandeAmi === ''" :mutation='require("../graphql/demandeAmi.gql")'
+            :variables='{id:userId, utilisateurId:auteur.id}'
+            @done="amitieDemandee">
+            <template slot-scope="{ mutate, loading, error }">
+            <v-tooltip left >
+              <v-btn @click="mutate()"
+              slot="activator" color="pink" dark fab>
+                <v-icon>person_add</v-icon>
+              </v-btn>
+              <span>Tooltip</span>
+            </v-tooltip>
+            </template>
+            </ApolloMutation>
+
+            <v-dialog v-if="ami==='ami'" v-model="dialog" persistent max-width="290">
               <v-btn slot="activator" color="primary" dark>Open Dialog</v-btn>
               <v-card>
                 <v-card-title class="headline">Use Google's location service?</v-card-title>
-                <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</v-card-text>
+                <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when
+                  no apps are running.</v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="green darken-1" flat @click.native="dialog = false">Disagree</v-btn>
@@ -61,48 +71,61 @@
     </v-container>
 
 
-
   </div>
 
 
 </template>
 
 <script>
-  import Article from './Article.vue'
-  export default {
-    name: 'profil',
-    components:{
-      Article
-    },
-    props: {
-      dataA: {
-        type: Object
-      }
-    },
-    data() {
-      return {
-        auteur: {
-          nom: this.dataA.nom,
-          prenom: this.dataA.prenom,
-          email: this.dataA.email,
-          ville: this.dataA.ville
-        },
-        ami: '',
-        gradient: 'to top right, rgba(63,81,181, .7), rgba(25,32,72, .7)'
-      }
-    },
-    methods: {
-      ajouteAmi() {
-      (this.ami === '') ? (this.ami = 'encours') : (this.ami = ''); 
-      }
+import Article from './Article.vue';
 
+export default {
+  name: 'fil',
+  components: {
+    Article,
+  },
+  props: {
+    dataA: {
+      type: Object,
     },
-    computed: {
-      userId() {
-        return this.$root.$data.userId
+  },
+  data() {
+    return {
+      auteur: {
+        nom: this.dataA.nom,
+        prenom: this.dataA.prenom,
+        email: this.dataA.email,
+        ville: this.dataA.ville,
+        amis: this.dataA.amis,
+        demandesEnAttente: this.dataA.demandesEnAttente,
+        demandesEnvoyees: this.dataA.demandesEnvoyees,
+      },
+      ami: '',
+      gradient: 'to top right, rgba(63,81,181, .7), rgba(25,32,72, .7)',
+    };
+  },
+  methods: {
+
+    amitieDemandee() {},
+  },
+  computed: {
+    userId() {
+      return this.$root.$data.userId;
+    },
+    demandeAmi() {
+      if (_.find(this.auteur.demandesEnAttente, {
+        id: this.userId,
+      })) {
+        return 'encours';
+      } else if (_.find(this.auteur.demandesEnvoyees, {
+        id: this.userId,
+      })) {
+        return 'encours';
       }
-    }
-  }
+      return '';
+    },
+  },
+};
 </script>
 
 <style>

@@ -18,7 +18,7 @@
     "shortid": "^2.2.8",
     "vue": "^2.5.16",
     "vue-apollo": "^3.0.0-beta.10",
-    "vue-cli-plugin-apollo": "^0.14.6",
+    "vue-cli-plugin-apollo": "^0.16.0",
     "vue-filepond": "^2.1.6",
     "vue-router": "^3.0.1",
     "vuetify": "^1.0.19",

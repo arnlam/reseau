@@ -1,119 +1,67 @@
 <template>
   <v-app>
 
-    <v-toolbar app :clipped-left="clipped">
-      <router-link to="/">
-        <v-toolbar-title>CastorBook</v-toolbar-title>
-      </router-link>
-
-      <v-spacer></v-spacer>
-       
-        <ApolloQuery v-if="userId" :query='require("./graphql/getDemandesEnvoyees.gql")' :variables="{ id: userId }">
-          <template slot-scope='{result: {loading, error, data}}'>
-            <div v-if='loading'> Loading...</div>
-            <div v-else-if='error'>Une erreur</div>
-            <div v-else-if='data'>
-           <v-menu bottom right>
-
-              <v-btn slot="activator" icon>
-                <v-icon>notifications_active</v-icon>
-              </v-btn>
-
-              <v-list>
-                <v-list-tile v-if="!data.auteur.demandesEnvoyees.length" avatar>
-                  <v-list-tile-avatar>
-                    <v-icon>not_interested</v-icon>
-                  </v-list-tile-avatar>
-                  <v-list-tile-title>Aucune demande d'ami</v-list-tile-title>
-                </v-list-tile>
-                <v-list-tile v-else v-for="(demande, index) of data.auteur.demandesEnvoyees" 
-                :key="'demande'+index">
-                  <v-list-tile-avatar>
-                    <v-icon>person_pin</v-icon>
-                  </v-list-tile-avatar>
-                  <v-list-tile-title>{{demande.personne.prenom}} {{demande.personne.nom}}</v-list-tile-title>
-                   <v-list-tile-sub-title>demande de contact</v-list-tile-sub-title>
-                </v-list-tile>
-              </v-list>
-            </v-menu>
-            </div>
-            <div v-else>Aucun résultat</div>
-          </template>
-        </ApolloQuery>
-         <v-spacer></v-spacer>
-      <v-menu v-if="userId" left bottom>
-        <v-btn slot="activator" icon>
-          <svg id="i-ellipsis-horizontal" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round"
-            stroke-linejoin="round" stroke-width="2">
-            <circle cx="7" cy="16" r="2" />
-            <circle cx="16" cy="16" r="2" />
-            <circle cx="25" cy="16" r="2" />
-          </svg>
-        </v-btn>
-
-        <v-list>
-          <v-list-tile @click="logout()" avatar>
-            <v-list-tile-avatar>
-              <v-icon>exit_to_app</v-icon>
-            </v-list-tile-avatar>
-            <v-list-tile-title>Se déconnecter</v-list-tile-title>
-          </v-list-tile>
-          <v-list-tile @click="parametres">
-            <v-list-tile-avatar>
-              <v-icon>settings</v-icon>
-            </v-list-tile-avatar>
-            <v-list-tile-title>Mes infos</v-list-tile-title>
-          </v-list-tile>
-        </v-list>
-      </v-menu>
-
-    </v-toolbar>
-    <v-content>
 
       <router-view/>
 
-    </v-content>
 
+    <v-footer :fixed="fixed" app   dark
+    height="auto">
+       <v-card
+      flat
+      tile
+      class="indigo lighten-1 white--text text-xs-center"
+    >
+      <v-card-text>
+        <v-btn
+          class="mx-3 white--text"
+          icon
+        >
+           <a href="https://github.com/arnlam"><svg id="i-github" viewBox="0 0 64 64" width="32" height="32">
+    <path stroke-width="0" fill="currentColor" d="M32 0 C14 0 0 14 0 32 0 53 19 62 22 62 24 62 24 61 24 60 L24 55 C17 57 14 53 13 50 13 50 13 49 11 47 10 46 6 44 10 44 13 44 15 48 15 48 18 52 22 51 24 50 24 48 26 46 26 46 18 45 12 42 12 31 12 27 13 24 15 22 15 22 13 18 15 13 15 13 20 13 24 17 27 15 37 15 40 17 44 13 49 13 49 13 51 20 49 22 49 22 51 24 52 27 52 31 52 42 45 45 38 46 39 47 40 49 40 52 L40 60 C40 61 40 62 42 62 45 62 64 53 64 32 64 14 50 0 32 0 Z" />
+        </svg></a>
+          </v-btn>
+      </v-card-text>
 
-    <v-footer :fixed="fixed" app>
-      <span>&copy; 2017</span>
+       </v-card>
+
     </v-footer>
   </v-app>
 </template>
 
 <script>
-  export default {
-    name: 'App',
-    data() {
-      return {
-        clipped: false,
-        drawer: true,
-        fixed: false,
-        items: [{
-          icon: 'bubble_chart',
-          title: 'Inspire'
-        }],
-        miniVariant: false,
-        right: true,
-        rightDrawer: false,
-        title: 'Vuetify.js'
-      }
+export default {
+  name: 'App',
+  data() {
+    return {
+      clipped: false,
+      drawer: true,
+      fixed: false,
+      items: [{
+        icon: 'bubble_chart',
+        title: 'Inspire',
+      }],
+      miniVariant: false,
+      right: true,
+      rightDrawer: false,
+      title: 'Vuetify.js',
+    };
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('user-id');
+      localStorage.removeItem('auth-token');
+      this.$root.$data.userId = localStorage.getItem('user-id');
+      this.$router.replace('/login');
     },
-    methods: {
-      logout() {
-        localStorage.removeItem('user-id')
-        localStorage.removeItem('auth-token')
-        this.$root.$data.userId = localStorage.getItem('user-id')
-        this.$router.replace('/login');
-      },
-      parametres() {
-        this.$router.replace('/moi')
-      }
+    parametres() {
+      this.$router.replace('/moi');
     },
-    computed: {
-      userId() {
-        return this.$root.$data.userId
-      }
-    }
-  }
+  },
+  computed: {
+    userId() {
+      return this.$root.$data.userId;
+    },
+  },
+};
 </script>

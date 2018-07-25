@@ -1,8 +1,28 @@
 query auteur($id: String!) {
-  auteur(id:$id){
-  	nom
+  auteur(id: $id) {
+    id
+    nom
     prenom
-    email
-    ville
+    demandesEnvoyees {
+      id
+      personne {
+        prenom
+        nom
+      }
+    }
+    demandesEnAttente {
+      id
+      personne {
+        prenom
+        nom
+      }
+    }
+    amis {
+      id
+      personne {
+        prenom
+        nom
+      }
+    }
   }
 }

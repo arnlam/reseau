@@ -1,8 +1,8 @@
 <template>
 
-     <v-layout justify-center>
-    <v-flex xs12 sm8 md6>
-        <h3>Poste !</h3>
+
+    <v-flex xs12 sm7 md5>
+
         <ApolloMutation
         :mutation="require('../graphql/PosteMessage.gql')"
         :variables="{
@@ -18,14 +18,15 @@
           auto-grow
           v-model="texte"
           placeholder="Ecrivez vot' message" />
-          <button class='bouton' :disabled="loading || !texte" @click="mutate()">Envoyer</button>
+          <v-btn block color="secondary"
+          :disabled="loading || !texte" @click="mutate()">Envoyer</v-btn>
           <p v-if="error">An error occured: {{ error }}</p>
+          <br /><br>
         </template>
       </ApolloMutation>
-      <Timeline 
+      <Timeline
       :tousLesArticles='{}' />
     </v-flex>
-     </v-layout>
 
 
 </template>
@@ -49,16 +50,16 @@ export default {
     resizeTextarea() {
     },
     msgEnvoye() {
-      console.log(this.userId)
+      console.log(this.userId);
       this.texte = '';
       this.$router.go();
     },
   },
   computed: {
-      userId () {
-        return this.$root.$data.userId
-      }
-    }
+    userId() {
+      return this.$root.$data.userId;
+    },
+  },
 };
 </script>
 

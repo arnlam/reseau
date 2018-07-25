@@ -1,9 +1,9 @@
 <template>
-  <v-container fluid>
+  <v-container fluid grid-list-xl >
     <v-layout row>
-        <SidebarLeft />
+        <SidebarLeft :auteur="auteur" />
        <Poste />
-       
+
     </v-layout>
 
      <v-bottom-nav
@@ -35,7 +35,7 @@
         flat
         value="nearby"
       >
-        <span>Nearby</span> 
+        <span>Nearby</span>
         <v-icon>place</v-icon>
       </v-btn>
     </v-bottom-nav>
@@ -45,21 +45,24 @@
 
 
 <script>
-  import Poste from '@/components/Poste.vue';
-  import SidebarLeft from '@/components/SidebarLeft.vue';
+import Poste from '@/components/Poste.vue';
+import SidebarLeft from '@/components/SidebarLeft.vue';
 
 export default {
   name: 'home',
-  components:{
+  components: {
     Poste,
-    SidebarLeft
+    SidebarLeft,
   },
-  data () {
-      return {
-        bottomNav: 'recent'
-      }
-    },
-}
+  props: {
+    auteur: { type: Object },
+  },
+  data() {
+    return {
+      bottomNav: 'recent',
+    };
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
