@@ -1,0 +1,6 @@
+mutation accepterAmi($id:String!, $utilisateurId: String!){
+  accepterAmi(id:$id, utilisateurId: $utilisateurId){
+    id
+    utilisateurId
+  }
+}
