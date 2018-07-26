@@ -28,20 +28,20 @@
 
                 </v-list-tile>
                   <v-divider></v-divider>
-                <v-list-group v-for="item in items" v-model="item.active" :key="item.title" :prepend-icon="item.action" no-action>
+                <v-list-group>
                   <v-list-tile slot="activator">
                     <v-list-tile-content>
-                      <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                      <v-list-tile-title>Ami</v-list-tile-title>
                     </v-list-tile-content>
                   </v-list-tile>
 
-                  <v-list-tile v-for="subItem in item.items" :key="subItem.title" @click="">
+                  <v-list-tile v-for="(ami, index) in auteur.amis" :key="'ami'+index" @click="">
                     <v-list-tile-content>
-                      <v-list-tile-title>{{ subItem.title }}</v-list-tile-title>
+                      <v-list-tile-title>  <router-link :to="{ path:`/membre/${ami.id}` }">{{ami.personne.prenom}} {{ami.personne.nom}}</router-link></v-list-tile-title>
                     </v-list-tile-content>
 
                     <v-list-tile-action>
-                      <v-icon>{{ subItem.action }}</v-icon>
+                      <v-icon>person</v-icon>
                     </v-list-tile-action>
                   </v-list-tile>
                 </v-list-group>

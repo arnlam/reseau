@@ -2,5 +2,22 @@ subscription articleAjoute {
   articleAjoute {
     texte
     id
+    creationDate
+    auteur {
+      prenom
+      nom
+      id
+    }
+     commentaires{
+      id
+      creationDate
+      texte
+      auteurId
+      auteurCom {
+        prenom
+        nom
+        id
+      }
+    }
   }
 }

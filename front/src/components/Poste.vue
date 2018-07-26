@@ -52,7 +52,6 @@ export default {
     msgEnvoye() {
       console.log(this.userId);
       this.texte = '';
-      this.$router.go();
     },
   },
   computed: {

@@ -19,8 +19,9 @@
               <span>Demande en cours</span>
             </v-tooltip>
 
-            <ApolloMutation v-else-if="demandeAmi === ''" :mutation='require("../graphql/demandeAmi.gql")'
-            :variables='{id:userId, utilisateurId:auteur.id}'
+            <ApolloMutation v-else-if="demandeAmi === '' && userId !== dataA.id" 
+            :mutation='require("../graphql/demandeAmi.gql")'
+            :variables='{id:userId, utilisateurId: dataA.id}'
             @done="amitieDemandee">
             <template slot-scope="{ mutate, loading, error }">
             <v-tooltip left >
@@ -33,16 +34,15 @@
             </template>
             </ApolloMutation>
 
-            <v-dialog v-if="ami==='ami'" v-model="dialog" persistent max-width="290">
-              <v-btn slot="activator" color="primary" dark>Open Dialog</v-btn>
+            <v-dialog v-if="demandeAmi==='ami'" v-model="dialog" persistent max-width="290">
+              <v-btn slot="activator" color="primary" dark fab><v-icon>person</v-icon></v-btn>
               <v-card>
-                <v-card-title class="headline">Use Google's location service?</v-card-title>
-                <v-card-text>Let Google help apps determine location. This means sending anonymous location data to Google, even when
-                  no apps are running.</v-card-text>
+                <v-card-title class="headline">Vraiment ?</v-card-title>
+                <v-card-text>Ne plus être ami ?</v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="green darken-1" flat @click.native="dialog = false">Disagree</v-btn>
-                  <v-btn color="green darken-1" flat @click.native="dialog = false">Agree</v-btn>
+                  <v-btn color="green darken-1" flat @click.native="dialog = false">Non</v-btn>
+                  <v-btn color="green darken-1" flat @click.native="dialog = false">Oui</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -121,7 +121,12 @@ export default {
         id: this.userId,
       })) {
         return 'encours';
+      } else if (_.find(this.auteur.amis, {
+        id: this.userId
+      })) {
+        return 'ami'
       }
+
       return '';
     },
   },

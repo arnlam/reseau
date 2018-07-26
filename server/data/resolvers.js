@@ -75,14 +75,47 @@ const resolvers = {
       return await Auteur.findOneAndRemove({ id });
     },
 
+    // * AMI MUTATION * //
     async demandeAmi(root, {id, utilisateurId}){
-
-      await Auteur.findOneAndUpdate({id:id}, {$push : {demandesEnvoyees : {id: utilisateurId}}}, {new:true});
-      return await Auteur.findOneAndUpdate({id:utilisateurId}, {$push : {demandesEnAttente : { id: id} }}, {new:true});
+      if (id === utilisateurId) throw new Error (`Même utilisateur`)
+      await Auteur.findOneAndUpdate(
+        {id:id, 'demandesEnvoyees.id': { $ne: utilisateurId }},
+        {$addToSet : 
+          {demandesEnvoyees :  { id: utilisateurId }
+          }
+        }, {new:true});
+      return await Auteur.findOneAndUpdate(
+        {id:utilisateurId, 'demandesEnAttente.id': { $ne: id }},
+        {$addToSet : 
+          {demandesEnAttente :  { id: id }
+          }
+        }, {new:true});
+    },
+    async accepterAmi(root, {id, utilisateurId}){
+      await Auteur.findOneAndUpdate(
+        { id: utilisateurId },
+        { $pull: { demandesEnvoyees: { id: id } } },
+      );
+      await Auteur.findOneAndUpdate(
+        { id: id },
+        { $pull: { demandesEnAttente: { id: utilisateurId } } },
+      );
+      await Auteur.findOneAndUpdate(
+        {id:utilisateurId, 'amis.id': { $ne: id }},
+        {$addToSet : 
+          {amis :  { id: id }
+          }
+        }, {new:true});
+      return await Auteur.findOneAndUpdate(
+        {id:id, 'amis.id': { $ne: utilisateurId }},
+        {$addToSet : 
+          {amis :  { id: utilisateurId }
+          }
+        }, {new:true});
     },
 
     // * ARTICLES MUTATION * //
-    async creerArticle(root, { input }, context) {
+    async creerArticle(root, { input }) {
       const message = {
         texte: input.texte,
         auteurId: input.auteurId,
@@ -94,6 +127,7 @@ const resolvers = {
       pubsub.publish('articleAjoute', { articleAjoute: message })
       return message
     },
+
     async creerCommentaire(root, { input }, context) {
       const message = {
         texte: input.texte,

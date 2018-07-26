@@ -1,23 +1,9 @@
 <template>
-  <div id="article">
-    <!-- <v-card>
-        <v-toolbar color="orange lighten-1" dark>
-          <v-toolbar-side-icon></v-toolbar-side-icon>
-
-          <v-toolbar-title>Message Board</v-toolbar-title>
-
-          <v-spacer></v-spacer>
-
-          <v-btn icon>
-            <v-icon>search</v-icon>
-          </v-btn>
-        </v-toolbar>
-         <v-list dense three-line > -->
+  <div id="timeline">
     <ApolloQuery :query='require("../graphql/RecupereMessage.gql")'>
-      <!-- <ApolloSubscribeToMore
+      <ApolloSubscribeToMore
         :document='require("../graphql/ArticleAjoute.gql")'
-        :updateQuery='surArticleAjoute'
-        /> -->
+        />
       <template slot-scope='{result: {loading, error, data}}'>
         <div v-if='loading'> Loading...</div>
         <div v-else-if='error'>Une erreur</div>
@@ -25,37 +11,7 @@
 
           <template v-for='(article, index) of data.tousLesArticles'>
             <Article :key="index" :article="article" :index="index"/>
-            <!-- <v-subheader
-             :key="index">
-              Aujourd'hui
-            </v-subheader> -->
-
-            <!-- <v-list-tile >
-           <v-list-tile-content>
-                <v-list-tile-sub-title class="text--primary">{{ article.texte }}</v-list-tile-sub-title>
-              </v-list-tile-content>
-               <v-list-tile-action>
-                <v-list-tile-action-text>15mn</v-list-tile-action-text>
-                <v-icon color="grey lighten-1">star_border</v-icon>
-              </v-list-tile-action> -->
-
-            <!-- </v-list-tile>
-           <v-divider
-              inset
-              :key="index"
-            ></v-divider>
-
-               <v-list-tile-sub-title  :key="index" >
-            <v-icon>add_comment</v-icon> Ajouter un commentaire
-
-               </v-list-tile-sub-title>
-
-
-               <v-divider
-              inset
-              :key="index"
-            ></v-divider> -->
-
+           
 
             <!-- <ArticleModifie
             :variables='{id: article.id, texte: article.texte}'
@@ -102,15 +58,19 @@ export default {
   methods: {
     surArticleAjoute(previousResult, {
       subscriptionData,
-    }) {
-      const nouvelArticle = subscriptionData.tousLesArticles.articleAjoute;
-      nouvelArticle.commentaires = [];
-      return {
-        tousLesArticles: [
-          ...previousResult.tousLesArticles,
-          subscriptionData.tousLesArticles.articleAjoute,
-        ],
-      };
+     }) {
+      // const nouvelArticle = subscriptionData.tousLesArticles.articleAjoute;
+      // nouvelArticle.commentaires = [];
+      console.log(previousResult)
+      console.log(subscriptionData)
+
+     const newResult = {
+      messages: [...previousResult.tousLesArticles],
+    }
+    // Add the question to the list
+    newResult.messages.push(subscriptionData.data.articleAjoute)
+    return newResult
+
     },
     // surCommentaireAjoute(previousResult, { subscriptionData }) {
     //   const articleCommente = previousResult.tousLesArticles.filter()

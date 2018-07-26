@@ -49,7 +49,7 @@ type iDDemandes{
 
 type Contact {
   id: String
-  utilisateurId:String
+  utilisateurId: String
 }
 # //// INPUT ////
 
@@ -97,7 +97,9 @@ type Mutation {
   modifierAuteur(id:String!, input: InputAuteur) : Auteur
   supprimeAuteur(id:String!) : Auteur
   verifLogin(input: InputLogin) : Token
-  demandeAmi(id: String, utilisateurId: String) : Contact
+  demandeAmi(id: String!, utilisateurId: String!) : Contact
+  accepterAmi(id: String!, utilisateurId: String!) : Contact
+  refuserAmi(id: String!, utilisateurId: String!) : Contact
 
   # MUTATION ARTICLE
   creerArticle(input: InputArticle) : Article
@@ -115,7 +117,7 @@ type Mutation {
 
 # //// SOUSCRIPTIONS ////
 type Subscription {
-  articleAjoute: Article!
+  articleAjoute: Article
 }
 
 

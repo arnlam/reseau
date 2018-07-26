@@ -13,27 +13,57 @@
 
             <v-spacer></v-spacer>
 
-            <v-menu bottom right>
-
+            <v-menu absolute transition="slide-y-transition">
               <v-btn slot="activator" icon>
-                <v-icon>notifications_active</v-icon>
+              <v-badge overlap color="orange" v-if="data.auteur.demandesEnAttente.length">
+                  <span slot="badge">{{data.auteur.demandesEnAttente.length}}</span>
+                  <v-icon>notifications_active</v-icon>
+              </v-badge>
+               <v-icon v-else>notifications_active</v-icon>
               </v-btn>
 
-              <v-list>
-                <v-list-tile v-if="!data.auteur.demandesEnvoyees.length" avatar>
-                  <v-list-tile-avatar>
+              <v-list two-line subheader>
+                <v-list-tile v-if="data.auteur.demandesEnvoyees.length" v-for="(demande, index) of data.auteur.demandesEnvoyees" :key="'demande'+index">
+                  <v-list-tile-action>
+                    <v-icon>person_pin</v-icon>
+                  </v-list-tile-action>
+                  <v-list-tile-content>
+                    <v-list-tile-title>{{demande.personne.prenom}} {{demande.personne.nom}}</v-list-tile-title>
+                    <v-list-tile-sub-title>demande envoyée</v-list-tile-sub-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile v-if="!data.auteur.demandesEnAttente.length" avatar>
+                  <v-list-tile-action>
                     <v-icon>not_interested</v-icon>
-                  </v-list-tile-avatar>
+                  </v-list-tile-action>
                   <v-list-tile-title>Aucune demande d'ami</v-list-tile-title>
                 </v-list-tile>
-                <v-list-tile v-else v-for="(demande, index) of data.auteur.demandesEnvoyees" :key="'demande'+index">
-                  <v-list-tile-avatar>
+
+
+                <v-list-tile v-else v-for="(demande, index) of data.auteur.demandesEnAttente" :key="'demande'+index">
+                  <v-list-tile-action>
                     <v-icon>person_pin</v-icon>
-                  </v-list-tile-avatar>
+                  </v-list-tile-action>
+                  <v-list-tile-content>
                   <router-link :to="'/membre/'+ demande.id">
                     <v-list-tile-title>{{demande.personne.prenom}} {{demande.personne.nom}}</v-list-tile-title>
                   </router-link>
                   <v-list-tile-sub-title>demande de contact</v-list-tile-sub-title>
+                  </v-list-tile-content>
+            <ApolloMutation 
+            :mutation='require("../graphql/AccepterAmi.gql")'
+            :variables='{id:userId, utilisateurId: demande.id}'
+            @done="amitieDemandee">
+            <template slot-scope="{ mutate, loading, error }">
+                   <v-list-tile-action>
+                    <v-icon @click="mutate()" color="green">done_outline</v-icon>
+                  </v-list-tile-action>
+            </template>
+            </ApolloMutation>
+                    
+                   <v-list-tile-action>
+                    <v-icon color="red">cancel</v-icon>
+                  </v-list-tile-action>
                 </v-list-tile>
               </v-list>
             </v-menu>

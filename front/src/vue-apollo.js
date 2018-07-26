@@ -9,7 +9,7 @@ Vue.use(VueApollo);
 const AUTH_TOKEN = 'apollo-token';
 
 // Http endpoint
-const httpEndpoint = process.env.VUE_APP_GRAPHQL_HTTP || 'http://localhost:4000/graphql';
+const httpEndpoint = process.env.VUE_APP_GRAPHQL_HTTP || 'http://localhost:3000/graphql';
 
 // Config
 const defaultOptions = {
@@ -17,7 +17,7 @@ const defaultOptions = {
   httpEndpoint,
   // You can use `wss` for secure connection (recommended in production)
   // Use `null` to disable subscriptions
-  wsEndpoint: process.env.VUE_APP_GRAPHQL_WS || 'ws://localhost:4000/graphql',
+  wsEndpoint: process.env.VUE_APP_GRAPHQL_WS || 'ws://localhost:3000/subscriptions',
   // LocalStorage token
   tokenName: AUTH_TOKEN,
   // Enable Automatic Query persisting with Apollo Engine
@@ -58,7 +58,7 @@ export function createProvider(options = {}) {
     defaultClient: apolloClient,
     defaultOptions: {
       $query: {
-        // fetchPolicy: 'cache-and-network',
+         fetchPolicy: 'cache-and-network',
       },
     },
     errorHandler(error) {
@@ -70,26 +70,26 @@ export function createProvider(options = {}) {
   return apolloProvider;
 }
 
-// Manually call this when user log in
-export async function onLogin(apolloClient, token) {
-  localStorage.setItem(AUTH_TOKEN, token);
-  if (apolloClient.wsClient) restartWebsockets(apolloClient.wsClient);
-  try {
-    await apolloClient.resetStore();
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.log('%cError on cache reset (login)', 'color: orange;', e.message);
-  }
-}
+// // Manually call this when user log in
+// export async function onLogin(apolloClient, token) {
+//   localStorage.setItem(AUTH_TOKEN, token);
+//   if (apolloClient.wsClient) restartWebsockets(apolloClient.wsClient);
+//   try {
+//     await apolloClient.resetStore();
+//   } catch (e) {
+//     // eslint-disable-next-line no-console
+//     console.log('%cError on cache reset (login)', 'color: orange;', e.message);
+//   }
+// }
 
-// Manually call this when user log out
-export async function onLogout(apolloClient) {
-  localStorage.removeItem(AUTH_TOKEN);
-  if (apolloClient.wsClient) restartWebsockets(apolloClient.wsClient);
-  try {
-    await apolloClient.resetStore();
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.log('%cError on cache reset (logout)', 'color: orange;', e.message);
-  }
-}
+// // Manually call this when user log out
+// export async function onLogout(apolloClient) {
+//   localStorage.removeItem(AUTH_TOKEN);
+//   if (apolloClient.wsClient) restartWebsockets(apolloClient.wsClient);
+//   try {
+//     await apolloClient.resetStore();
+//   } catch (e) {
+//     // eslint-disable-next-line no-console
+//     console.log('%cError on cache reset (logout)', 'color: orange;', e.message);
+//   }
+// }
