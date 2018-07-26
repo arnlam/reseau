@@ -1,7 +1,14 @@
 subscription commentaireAjoute {
   commentaireAjoute {
-    articleId
-    id
-    texte
+      id
+      creationDate
+      texte
+      articleId
+      auteurId
+      auteurCom {
+        prenom
+        nom
+        id
+      }
   }
 }

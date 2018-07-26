@@ -119,8 +119,8 @@ const resolvers = {
       const message = {
         texte: input.texte,
         auteurId: input.auteurId,
-        id: shortid.generate(),
-        creationDate: moment().toISOString()
+        id: await shortid.generate(),
+        creationDate: await moment().toISOString()
       }
       await Article.create(message);
       console.log(message)
@@ -154,6 +154,9 @@ const resolvers = {
   Subscription: {
     articleAjoute: {
       subscribe: () => pubsub.asyncIterator('articleAjoute')
+    },
+    commentaireAjoute: {
+      subscribe: () => pubsub.asyncIterator('commentaireAjoute')
     },
   },
   // 

@@ -6,6 +6,7 @@ import Moi from './views/Moi.vue';
 import Utilisateur from './views/Utilisateur.vue';
 import Membres from './views/Membres.vue';
 import Mur from './views/Mur.vue';
+import Chat from './views/Chat.vue';
 
 Vue.use(Router);
 
@@ -33,6 +34,11 @@ export default new Router({
         path: '/moi',
         name: 'moi',
         component: Moi,
+      },
+      {
+        path: '/chat',
+        name: 'chat',
+        component: Chat,
       },
       ],
     },

@@ -118,6 +118,7 @@ type Mutation {
 # //// SOUSCRIPTIONS ////
 type Subscription {
   articleAjoute: Article
+  commentaireAjoute: Commentaire
 }
 
 

@@ -3,12 +3,12 @@ subscription articleAjoute {
     texte
     id
     creationDate
-    auteur {
+    auteur{
       prenom
       nom
       id
     }
-     commentaires{
+    commentaires{
       id
       creationDate
       texte

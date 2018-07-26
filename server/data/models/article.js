@@ -12,7 +12,7 @@ const SchemaArticle = new Mongoose.Schema({
   vues: Number,
   auteurId: String,
   creationDate: {
-    type: Date,
+    type: String,
     required: true
   }
 });

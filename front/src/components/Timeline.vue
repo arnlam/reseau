@@ -3,7 +3,11 @@
     <ApolloQuery :query='require("../graphql/RecupereMessage.gql")'>
       <ApolloSubscribeToMore
         :document='require("../graphql/ArticleAjoute.gql")'
-        />
+        :updateQuery='surArticleAjoute'/>
+        <ApolloSubscribeToMore
+      :document='require("../graphql/CommentaireAjoute.gql")'
+      :updateQuery='surCommentaireAjoute'/>
+ 
       <template slot-scope='{result: {loading, error, data}}'>
         <div v-if='loading'> Loading...</div>
         <div v-else-if='error'>Une erreur</div>
@@ -59,19 +63,32 @@ export default {
     surArticleAjoute(previousResult, {
       subscriptionData,
      }) {
-      // const nouvelArticle = subscriptionData.tousLesArticles.articleAjoute;
-      // nouvelArticle.commentaires = [];
-      console.log(previousResult)
-      console.log(subscriptionData)
-
      const newResult = {
-      messages: [...previousResult.tousLesArticles],
-    }
-    // Add the question to the list
-    newResult.messages.push(subscriptionData.data.articleAjoute)
-    return newResult
+      tousLesArticles: [...previousResult.tousLesArticles],
+      }
+      // Add the question to the list
+      console.log(newResult)
+      console.log(subscriptionData.data.articleAjoute)
+      newResult.tousLesArticles.unshift(subscriptionData.data.articleAjoute)
+        console.log(newResult)
+      return newResult
 
     },
+    surCommentaireAjoute(previousResult, { subscriptionData }) {
+      console.log(subscriptionData)
+      const newResult = {
+      tousLesArticles: [...previousResult.tousLesArticles],
+      }
+      console.log(newResult)
+      let index = _.findIndex(newResult.tousLesArticles, {id: subscriptionData.data.commentaireAjoute.articleId });
+      console.log(index)
+      console.log(subscriptionData.data.commentaireAjoute)
+      console.log(newResult.tousLesArticles[index].commentaires)
+      newResult.tousLesArticles[index].commentaires = subscriptionData.data.commentaireAjoute;
+      return newResult
+    }
+    //   return newResult
+    // }
     // surCommentaireAjoute(previousResult, { subscriptionData }) {
     //   const articleCommente = previousResult.tousLesArticles.filter()
     //   return {
