@@ -1,10 +1,15 @@
 <template>
   <v-container fluid grid-list-xl >
-    <v-layout row>
-        <SidebarLeft :auteur="auteur" />
-       <Poste />
 
-    </v-layout>
+        <SidebarLeft :auteur="auteur" />
+        <v-layout>
+       <Poste />
+       <Chat v-if="chat" :chatId="chat"/>
+
+        </v-layout>
+
+
+
 
      <v-bottom-nav
       :active.sync="bottomNav"
@@ -47,12 +52,15 @@
 <script>
 import Poste from '@/components/Poste.vue';
 import SidebarLeft from '@/components/SidebarLeft.vue';
+import Chat from '@/components/Chat.vue';
+
 
 export default {
   name: 'home',
   components: {
     Poste,
     SidebarLeft,
+    Chat
   },
   props: {
     auteur: { type: Object },
@@ -60,9 +68,15 @@ export default {
   data() {
     return {
       bottomNav: 'recent',
+      chat: ''
     };
   },
-};
+  created() {
+    this.$root.$on('chat', (canalId) => {
+    	this.chat = canalId;
+    })
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -5,7 +5,7 @@ var fs = require("fs"),
 
     // paths/constants
     fileInputName = process.env.FILE_INPUT_NAME || "qqfile",
-    uploadedFilesPath = process.env.UPLOADED_FILES_DIR,
+    uploadedFilesPath = './public/uploads/',
     chunkDirName = "chunks",
     port = process.env.SERVER_PORT || 3000,
     maxFileSize = process.env.MAX_FILE_SIZE || 0; // in bytes, 0 for unlimited
@@ -39,6 +39,7 @@ function onSimpleUpload(fields, file, res) {
     if (isValid(file.size)) {
         moveUploadedFile(file, uuid, function() {
                 responseData.success = true;
+                responseData.uri='http://localhost:3000/uploads/'+uuid+'/'+file.name;
                 res.send(responseData);
             },
             function() {

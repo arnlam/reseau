@@ -7,6 +7,7 @@ import store from './store';
 import './registerServiceWorker';
 import { createProvider } from './vue-apollo';
 
+
 window._ = require('lodash');
 const moment = require('moment');
 require('moment/locale/fr');

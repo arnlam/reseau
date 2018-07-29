@@ -42,7 +42,8 @@ const SchemaAuteur = new Mongoose.Schema({
   creationDate: {
     type: Date,
     required: true
-  }
+  },
+  chat: Array
 });
 
 // SchemaAuteur.pre('create', function (next) {

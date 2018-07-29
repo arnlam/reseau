@@ -3,6 +3,7 @@ query RecupereMessage {
     texte
     id
     creationDate
+    uri
     auteur{
       prenom
       nom

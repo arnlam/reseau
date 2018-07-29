@@ -1,0 +1,5 @@
+mutation demandeChat($id: String!, $utilisateurId: String!) {
+              demandeChat(id: $id, utilisateurId: $utilisateurId) {
+                canalId
+              }
+}

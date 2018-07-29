@@ -1,0 +1,6 @@
+mutation creerMessage($input: InputMessage, $canalId: canalId) {
+  creerMessage (input: $input) {
+    texte
+    id
+  }
+}

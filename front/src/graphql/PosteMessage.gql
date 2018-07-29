@@ -1,12 +1,14 @@
-mutation creerArticle($texte: String!, $auteur: String){
+mutation creerArticle($texte: String!, $auteur: String, $uri: String){
 	creerArticle(
     input:{
       texte: $texte
       auteurId: $auteur
+      uri: $uri
     }){
     id
     texte
     auteurId
     creationDate
+    uri
   }
 }

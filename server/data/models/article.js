@@ -14,7 +14,8 @@ const SchemaArticle = new Mongoose.Schema({
   creationDate: {
     type: String,
     required: true
-  }
+  },
+  uri: String
 });
 
 const Article = Mongoose.model('articles', SchemaArticle);

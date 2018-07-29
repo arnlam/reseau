@@ -4,6 +4,7 @@ import Article from './models/article';
 import Commentaire from './models/commentaire';
 import { PubSub } from 'graphql-subscriptions';
 import shortid from 'shortid';
+import Canal from './models/canal';
 const moment = require ('moment');
 const bcrypt = require('bcrypt')
 const pubsub = new PubSub();
@@ -27,7 +28,6 @@ const resolvers = {
       return await Article.find().sort({creationDate:-1}).limit(args.first);
     },
     async commentaires(article){
-      console.log('iii')
       return await Commentaire.find(article.articleId);
     }
   
@@ -39,7 +39,6 @@ const resolvers = {
         id: shortid.generate(),
         password: await bcrypt.hash(input.password, 10),
         creationDate: moment().toISOString()})
-      // try{
         return await Auteur.create(input);
     },
     async modifierAuteur(root, {id, input}){
@@ -114,11 +113,31 @@ const resolvers = {
         }, {new:true});
     },
 
+    // * CHAT MUTATION *//
+
+    async creerMessage(root, { input, canalId }) {
+      console.log(input);
+      Object.assign(input, {
+        creationDate: await moment().toISOString()
+      });
+      return await Canal.findOneAndUpdate(
+        {
+          id: canalId
+        }, {
+          $addToSet:
+          { messages: { input }}
+        },
+        { new: true }
+      )
+    },
+
     // * ARTICLES MUTATION * //
     async creerArticle(root, { input }) {
+      console.log(input)
       const message = {
         texte: input.texte,
         auteurId: input.auteurId,
+        uri: input.uri,
         id: await shortid.generate(),
         creationDate: await moment().toISOString()
       }
@@ -150,6 +169,29 @@ const resolvers = {
     async ajoutVue(root, { id }){
       return await Article.findOneAndUpdate({id}, (post) => post++, { new: true } );
     },
+    async demandeChat( root, { id, utilisateurId }){
+      let canal = shortid.generate();
+      await Auteur.findOneAndUpdate(
+        { id: id, 'chat': { $ne: utilisateurId } },
+        { $addToSet : 
+          {chat : {
+            id: utilisateurId,
+            canalId: canal
+          }}
+        },
+        {new:true});
+      await Auteur.findOneAndUpdate(
+        { id: utilisateurId, 'chat': { $ne: id } },
+        { $addToSet : 
+          {chat : {
+            id: id,
+            canalId: canal } }
+        },
+        {new:true});
+      return await Canal.create({
+          canalId: canal
+        });
+    }
   },
   Subscription: {
     articleAjoute: {
@@ -177,9 +219,14 @@ const resolvers = {
     async personne(demande) {
       return await Auteur.findOne({id: demande.id});
     }
-  }
+  },
+  // Canal: {
+  //   async messages(canal){
+  //     return await Canal.find({idCanal: canal.id })
+  //   }
   
-};
+  
+}
 
 
 

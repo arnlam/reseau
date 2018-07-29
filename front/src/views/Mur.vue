@@ -10,6 +10,7 @@
             <router-link to="/mur/accueil">
               <v-toolbar-title>CastorBook</v-toolbar-title>
             </router-link>
+                 <v-spacer></v-spacer>
 
             <v-spacer></v-spacer>
 

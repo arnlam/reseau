@@ -6,7 +6,8 @@ import Mongoose from 'mongoose';
 
 // import indexRouter from './routes/index';
 import cors from 'cors';
-//import {onUpload, onDeleteFile } from './middleware/upload';
+import {onUpload, onDeleteFile } from './middleware/upload';
+
 
 
 
@@ -33,8 +34,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // routes
-// app.post("/uploads", onUpload);
-// app.delete("/uploads/:uuid", onDeleteFile);
+app.post("/uploads", onUpload);
+app.delete("/uploads/:uuid", onDeleteFile);
 
 // app.use('/', path.join(__dirname, '../front/public'))
 // app.use('/', indexRouter);

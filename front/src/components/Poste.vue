@@ -2,12 +2,14 @@
 
 
     <v-flex xs12 sm7 md5>
-
+      <v-layout>
+     <v-flex xs12 sm8>
         <ApolloMutation
         :mutation="require('../graphql/PosteMessage.gql')"
         :variables="{
           texte : texte,
-          auteur: userId
+          auteur: userId,
+          uri: uri
         }"
         @done="msgEnvoye"
         >
@@ -24,34 +26,66 @@
           <br /><br>
         </template>
       </ApolloMutation>
+     </v-flex>
+       <v-flex xs12 sm4>
+       <Gallery :uploader="uploader" :key="keyUploader"/>
+       </v-flex>
+      </v-layout>
       <Timeline
       :tousLesArticles='{}' />
-    </v-flex>
 
+    </v-flex>
 
 </template>
 
 
 <script>
 import Timeline from './Timeline.vue';
+import FineUploaderTraditional from 'fine-uploader-wrappers'
+import Gallery from 'vue-fineuploader/gallery'
+// import '../assets/gallery.css'
 
 export default {
   components: {
     Timeline,
+    Gallery
   },
   data() {
+     const uploader = new FineUploaderTraditional({
+        options: {
+          deleteFile: {
+            enabled: true,
+            endpoint: 'http://localhost:3000/uploads'
+          },
+          request: {
+            endpoint: 'http://localhost:3000/uploads'
+          },
+          setItemLimit: 1,
+          callbacks:{
+            onComplete: (id, name, response) =>{
+            this.uri = response.uri;        
+            },
+            onDelete: (id) =>{
+            this.uri = '';
+            },
+          }
+        }
+      })
     return {
       texte: '',
       canal: 'general',
       edit: false,
+      uploader,
+      uri: '',
+      keyUploader: 1
     };
   },
   methods: {
     resizeTextarea() {
     },
     msgEnvoye() {
-      console.log(this.userId);
       this.texte = '';
+      this.keyUploader++;
     },
   },
   computed: {
@@ -105,5 +139,19 @@ body{
   background: #ffff00;
   outline: none!important;
 }
+  /* .vue-fine-uploader-file-input {
+    display: inline-block;
+   border: 2px solid black;
+  }
+
+  .vue-fine-uploader-file-input label {
+    cursor: pointer;
+  }
+
+  .vue-fine-uploader-file-input input[type="file"] {
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  } */
 
 </style>

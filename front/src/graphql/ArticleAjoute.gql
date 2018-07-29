@@ -3,6 +3,7 @@ subscription articleAjoute {
     texte
     id
     creationDate
+    uri
     auteur{
       prenom
       nom

@@ -18,14 +18,23 @@
         </v-card-text>
 
       </v-layout>
+ 
+      <v-layout>
+        <v-flex xs12>
+          <v-card>
+       <v-card-media v-if="article.uri" height="200px" :src="article.uri"></v-card-media>
 
+          </v-card>
+        </v-flex>
+      </v-layout>
       <v-card-text>
 
         {{ article.texte }}
       </v-card-text>
 
+
       
-      <!-- <v-speed-dial :transition="'scale-transition'" :direction="'bottom'" :right="true" :top="true">
+       <!-- <v-speed-dial :transition="'scale-transition'" :direction="'bottom'" :right="true" :top="true">
         <v-btn slot="activator" color="blue darken-2" dark fab>
           <v-icon>account_circle</v-icon>
           <v-icon>close</v-icon>
@@ -36,7 +45,7 @@
         <v-btn fab dark small color="indigo">
           <v-icon>delete</v-icon>
         </v-btn>
-      </v-speed-dial> -->
+      </v-speed-dial>  -->
       <!-- <v-btn color="orange" fab dark small absolute top right>
         <v-icon>add</v-icon>
       </v-btn> -->
@@ -55,7 +64,7 @@
       </v-card-actions>
 
       <!-- <transition-group v-show="show" name="list" tag="div"> -->
-        <v-flex xs12 d-flex v-if="article.commentaires.length" v-for="(com, index) of article.commentaires" :key="'com'+index">
+        <v-flex xs12 d-flex v-if="article.commentaires.length && show" v-for="(com, index) of article.commentaires" :key="'com'+index">
 
           <v-card>
             <v-container fluid>
@@ -68,12 +77,13 @@
                   <span class="grey--text"> {{com.auteurCom.prenom}} {{com.auteurCom.nom}} {{com.creationDate | moment('from')}}</span>
                   <br/> {{ com.texte}}
                 </v-card-text>
+
               </v-layout>
             </v-container>
           </v-card>
         </v-flex>
 
-        <ApolloMutation :mutation='require("../graphql/PosterCommentaire.gql")' :variables='{input:{ texte:texte, articleId:article.id, auteurId:userId } }'
+        <ApolloMutation v-if="show" :mutation='require("../graphql/PosterCommentaire.gql")' :variables='{input:{ texte:texte, articleId:article.id, auteurId:userId } }'
           :key="'textarea'+index" @done="comEnvoye">
           <template slot-scope="{mutate, loading, error}">
             <v-textarea v-model="texte" color="orange lighten-1" box auto-grow placeholder="mon commentaire" />

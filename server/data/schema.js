@@ -18,6 +18,11 @@ type Auteur {
   amis: [iDDemandes],
   demandesEnAttente: [iDDemandes],
   demandesEnvoyees: [iDDemandes],
+  chat: [CanalOpen]
+}
+type CanalOpen {
+  id: String,
+  canalId: String
 }
 
 type Article {
@@ -28,6 +33,7 @@ type Article {
   commentaires: [Commentaire]
   auteur: Auteur
   creationDate: String
+  uri: String
 }
 type Commentaire {
   id: String!
@@ -51,6 +57,19 @@ type Contact {
   id: String
   utilisateurId: String
 }
+type Canal {
+  canalId: String
+  messages: [Message]
+}
+# MESSAGE PRIVE
+
+type Message {
+  id: String
+  userId: String
+  texte: String
+  creationDate: String
+}
+
 # //// INPUT ////
 
 input InputAuteur {
@@ -65,6 +84,7 @@ input InputAuteur {
 input InputArticle {
   texte: String!
   auteurId: String
+  uri: String
 }
 input InputCommentaire {
   texte: String!
@@ -74,6 +94,11 @@ input InputCommentaire {
 input InputLogin {
   login: String!
   password: String!
+}
+
+input InputMessage {
+  userId: String!
+  texte: String!
 }
 
 
@@ -100,6 +125,9 @@ type Mutation {
   demandeAmi(id: String!, utilisateurId: String!) : Contact
   accepterAmi(id: String!, utilisateurId: String!) : Contact
   refuserAmi(id: String!, utilisateurId: String!) : Contact
+  # CHAT
+  demandeChat(id: String!, utilisateurId: String!) : Canal
+  creerMessage(input: InputMessage!, canalId: String!): Message
 
   # MUTATION ARTICLE
   creerArticle(input: InputArticle) : Article
