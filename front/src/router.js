@@ -12,30 +12,33 @@ Vue.use(Router);
 
 export default new Router({
   mode: 'history',
-  routes: [
+  routes:
+  [
     {
       path: '/mur',
       name: 'mur',
       component: Mur,
-      children: [{
-        path: 'accueil',
-        component: Maison,
-        props: true,
-      },
-      {
-        path: '/membre/:id',
-        component: Utilisateur,
-      },
-      {
-        path: '/membres',
-        component: Membres,
-      },
-      {
-        path: '/moi',
-        name: 'moi',
-        component: Moi,
-      },
-     ],
+      children:
+      [
+        {
+          path: 'accueil',
+          component: Maison,
+          props: true,
+        },
+        {
+          path: '/membre/:id',
+          component: Utilisateur,
+        },
+        {
+          path: '/membres',
+          component: Membres,
+        },
+        {
+          path: '/moi',
+          name: 'moi',
+          component: Moi,
+        },
+      ],
     },
     {
       path: '/login',
@@ -45,13 +48,3 @@ export default new Router({
 
   ],
 });
-
-// router.map({
-//   // ...
-//   '/auth/login': { name: 'login', component: LoginView },
-//   '/auth/register':  { name: 'register', component: RegisterView },
-//  // ...
-// });
-
-// <navigation v-if="['login', 'register'].indexOf($route.name) > -1"></navigation>
-{ /* <body :class="{ 'auth': $route.path==='/auth/register' || $route.path==='/auth/login' }"> */ }
