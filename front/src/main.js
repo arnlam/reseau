@@ -21,11 +21,11 @@ Vue.use(require('vue-moment'), {
 
 
 router.beforeEach((to, from, next) => {
-  if (to.path == '/') {
+  if (to.path === '/') {
     if (!userId) {
       next({ path: '/login' });
     } else {
-      next();
+      next({ path: '/mur/accueil' });
     }
   } else {
     next();

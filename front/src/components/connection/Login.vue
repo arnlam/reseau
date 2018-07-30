@@ -13,7 +13,7 @@
           <v-card-text>
             <v-form>
               <v-text-field v-model="identifiant" prepend-icon="person" name="login" label="Login" type="text"></v-text-field>
-              <v-text-field v-model="motDePasse" prepend-icon="lock" name="password" label="Password" type="password"></v-text-field>
+              <v-text-field @keyup.native.enter="confirm()" v-model="motDePasse" prepend-icon="lock" name="password" label="Password" type="password"></v-text-field>
             </v-form>
           </v-card-text>
           <v-card-actions>
