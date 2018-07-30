@@ -1,6 +1,7 @@
-mutation creerMessage($input: InputMessage, $canalId: canalId) {
-  creerMessage (input: $input) {
+mutation creerMessage($input: InputMessage, $canalId: String) {
+  creerMessage (input: $input, canalId: $canalId) {
     texte
-    id
+    userId
+    creationDate
   }
 }

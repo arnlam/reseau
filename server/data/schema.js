@@ -97,8 +97,8 @@ input InputLogin {
 }
 
 input InputMessage {
-  userId: String!
-  texte: String!
+  userId: String
+  texte: String
 }
 
 
@@ -112,6 +112,7 @@ type Query {
   commentaires(articleId:String!): [Commentaire]
   auteurCom(auteurId:String!): Auteur
   personne(id: String!): Auteur
+  tousLesMessagesChat(canalId: String!): [Message]
 }
 
 # //// MUTATION ////
@@ -127,7 +128,7 @@ type Mutation {
   refuserAmi(id: String!, utilisateurId: String!) : Contact
   # CHAT
   demandeChat(id: String!, utilisateurId: String!) : Canal
-  creerMessage(input: InputMessage!, canalId: String!): Message
+  creerMessage(input: InputMessage, canalId: String): Message
 
   # MUTATION ARTICLE
   creerArticle(input: InputArticle) : Article
@@ -147,6 +148,7 @@ type Mutation {
 type Subscription {
   articleAjoute: Article
   commentaireAjoute: Commentaire
+  messageChatAjoute(canalId: String): Message
 }
 
 

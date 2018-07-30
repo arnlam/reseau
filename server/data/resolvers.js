@@ -10,6 +10,7 @@ const bcrypt = require('bcrypt')
 const pubsub = new PubSub();
 const settings = require('../config/settings');
 const jsonwebtoken = require('jsonwebtoken');
+const { withFilter } = require('graphql-subscriptions');
   
 const resolvers = {
   Query: {
@@ -29,8 +30,11 @@ const resolvers = {
     },
     async commentaires(article){
       return await Commentaire.find(article.articleId);
+    },
+    async tousLesMessagesChat(root, canalId){
+      let donnees = await Canal.findOne(canalId)
+      return donnees.messages
     }
-  
   },
   Mutation: {
     // * AUTEURS MUTATION * //
@@ -116,19 +120,22 @@ const resolvers = {
     // * CHAT MUTATION *//
 
     async creerMessage(root, { input, canalId }) {
-      console.log(input);
+      console.log(1)
       Object.assign(input, {
         creationDate: await moment().toISOString()
       });
-      return await Canal.findOneAndUpdate(
+      console.log(input);
+      await Canal.findOneAndUpdate(
         {
-          id: canalId
+          canalId: canalId
         }, {
           $addToSet:
-          { messages: { input }}
+          { messages: input }
         },
         { new: true }
-      )
+      );
+      pubsub.publish('messageChatAjoute', { messageChatAjoute: input, canalId: canalId });
+      return input;
     },
 
     // * ARTICLES MUTATION * //
@@ -199,6 +206,14 @@ const resolvers = {
     },
     commentaireAjoute: {
       subscribe: () => pubsub.asyncIterator('commentaireAjoute')
+    },
+    messageChatAjoute: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator('messageChatAjoute'),
+        (payload, variables) => {
+          return payload.canalId === variables.canalId;
+        }
+      )
     },
   },
   // 

@@ -1,0 +1,7 @@
+query tousLesMessagesChat ($canalId: String!){
+  tousLesMessagesChat(canalId: $canalId){
+    texte
+    userId
+    creationDate
+  }
+}

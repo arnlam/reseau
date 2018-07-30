@@ -5,9 +5,11 @@ const SchemaCanal = new Mongoose.Schema({
     type: String,
   },
   messages: [
-    { id: String,
+    { 
+      userId: String,
       creationDate: String,
-      texte: String}
+      texte: String
+    }
   ]
 });
 

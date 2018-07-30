@@ -1,0 +1,7 @@
+subscription messageChatAjoute($canalId: String){
+  messageChatAjoute(canalId:$canalId){
+    texte
+    userId
+    creationDate
+  }
+}
