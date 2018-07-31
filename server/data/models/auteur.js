@@ -23,6 +23,10 @@ const SchemaAuteur = new Mongoose.Schema({
     unique: true,
     trim: true
   },
+  avatar: {
+    type:String,
+    default: "http://localhost:3000/images/default.png"
+  },
   password: {
     type:String,
     required: true

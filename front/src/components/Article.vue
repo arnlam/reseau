@@ -4,7 +4,7 @@
       <v-layout>
 
         <v-avatar :size="80">
-          <img src="https://pbs.twimg.com/profile_images/546546706004082688/TvhLk_H2_400x400.jpeg">
+          <img :src="article.auteur.avatar">
         </v-avatar>
 
 
@@ -57,9 +57,17 @@
             </span>
 
           </v-btn>
-          <v-btn flat @click="show = !show">
-            <v-icon class="mr-2">child_care</v-icon>
+          
+        <ApolloMutation :mutation='require("../graphql/Like.gql")' :variables='{ id:userId, articleId: article.id }'
+          :key="'like'+index" @done="liking">
+          <template slot-scope="{mutate, loading, error}">
+            <v-btn  flat @click="mutate()">
+            <v-icon :class="{ 'teal--text': isActive || isPresent }" class="mr-2">sentiment_very_satisfied</v-icon>
+            <span> {{likes}}
+              </span>
           </v-btn>
+          </template>
+        </ApolloMutation>
         </v-layout>
       </v-card-actions>
 
@@ -70,7 +78,7 @@
             <v-container fluid>
               <v-layout>
                 <v-avatar :size="40">
-                  <img src="https://pbs.twimg.com/profile_images/546546706004082688/TvhLk_H2_400x400.jpeg">
+                  <img :src="com.auteurCom.avatar">
                 </v-avatar>
 
                 <v-card-text>
@@ -112,22 +120,45 @@
     },
     data() {
       return {
+        likes: this.article.like.length,
         show: false,
         texte: '',
+        isActive: false
       };
     },
     methods: {
       comEnvoye() {
         this.texte = '';
       },
+      liking(data) {
+        if(!data.like){
+          return;
+        }
+        this.likes++;
+        this.isActive = true;
+      }
+
     },
     computed: {
       userId() {
         return this.$root.$data.userId;
       },
+      isPresent(){
+        if (this.article.like){
+        if(_.find(this.article.like, {id: this.userId})){
+          return true
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+      }
     },
   };
 </script>
-
 <style>
+.active{
+  color: #00E676;
+}
 </style>

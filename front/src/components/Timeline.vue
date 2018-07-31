@@ -5,13 +5,13 @@
         :document='require("../graphql/ArticleAjoute.gql")'
         :updateQuery='surArticleAjoute'/>
         <ApolloSubscribeToMore
-      :document='require("../graphql/CommentaireAjoute.gql")'
-      :updateQuery='surCommentaireAjoute'/>
+        :document='require("../graphql/CommentaireAjoute.gql")'
+        :updateQuery='surCommentaireAjoute'/>
  
       <template slot-scope='{result: {loading, error, data}}'>
         <div v-if='loading'> Loading...</div>
         <div v-else-if='error'>Une erreur</div>
-        <div v-else-if='data'>
+        <div v-else-if='data' :key="keyComment">
 
           <template v-for='(article, index) of data.tousLesArticles'>
             <Article :key="index" :article="article" :index="index"/>
@@ -48,7 +48,6 @@ export default {
   name: 'Timeline',
   components: {
     Article,
-    // AfficherCommentaires,
   },
 
   data() {
@@ -56,7 +55,7 @@ export default {
       texte: '',
       canal: 'general',
       tousLesArticles: [],
-      show: false,
+      keyComment: 1
     };
   },
   methods: {
@@ -66,26 +65,29 @@ export default {
      const newResult = {
       tousLesArticles: [...previousResult.tousLesArticles],
       }
-      // Add the question to the list
-      console.log(newResult)
-      console.log(subscriptionData.data.articleAjoute)
       newResult.tousLesArticles.unshift(subscriptionData.data.articleAjoute)
-        console.log(newResult)
       return newResult
 
     },
     surCommentaireAjoute(previousResult, { subscriptionData }) {
-      console.log(subscriptionData)
-      const newResult = {
-      tousLesArticles: [...previousResult.tousLesArticles],
-      }
-      console.log(newResult)
-      let index = _.findIndex(newResult.tousLesArticles, {id: subscriptionData.data.commentaireAjoute.articleId });
-      console.log(index)
-      console.log(subscriptionData.data.commentaireAjoute)
-      console.log(newResult.tousLesArticles[index].commentaires)
-      newResult.tousLesArticles[index].commentaires = subscriptionData.data.commentaireAjoute;
-      return newResult
+      this.keyComment++
+      // console.log(subscriptionData)
+      // const newResult = {
+      // tousLesArticles: [...previousResult.tousLesArticles],
+      // }
+      // console.log(newResult)
+      // let index = _.findIndex(newResult.tousLesArticles, {id: subscriptionData.data.commentaireAjoute.articleId });
+      // console.log(index)
+      // let newComment = Object.assign({}, subscriptionData.data.commentaireAjoute);
+      // console.log(newComment)
+      // // let olComment =  [...newResult.tousLesArticles[index].commentaires];
+      // // olComment.push(newComment);
+      // // console.log(olComment)
+      // let newArticleComment = Object.assign({}, newResult.tousLesArticles[index])
+      // newArticleComment.commentaires.push(newComment)
+      // newResult.tousLesArticles[index] = newArticleComment
+      // console.log(newResult)
+      // return newResult
     }
     //   return newResult
     // }

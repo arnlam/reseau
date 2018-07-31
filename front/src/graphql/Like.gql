@@ -1,0 +1,6 @@
+mutation like($id: String!, $articleId: String!){
+  like(id: $id, articleId: $articleId )
+  {
+    id
+  }
+}

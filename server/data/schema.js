@@ -13,6 +13,7 @@ type Auteur {
   email: String
   ville: String
   password: String
+  avatar: String
   articles: [Article]
   creationDate: String
   amis: [iDDemandes],
@@ -34,6 +35,7 @@ type Article {
   auteur: Auteur
   creationDate: String
   uri: String
+  like: [Like]
 }
 type Commentaire {
   id: String!
@@ -69,13 +71,16 @@ type Message {
   texte: String
   creationDate: String
 }
+type Like {
+  id: String
+}
 
 # //// INPUT ////
 
 input InputAuteur {
-  login: String!
-  prenom: String!
-  nom: String!
+  login: String
+  prenom: String
+  nom: String
   email: String
   ville: String
   password: String
@@ -126,6 +131,9 @@ type Mutation {
   demandeAmi(id: String!, utilisateurId: String!) : Contact
   accepterAmi(id: String!, utilisateurId: String!) : Contact
   refuserAmi(id: String!, utilisateurId: String!) : Contact
+  # LIKE
+  like(id: String!, articleId: String!) : Like
+
   # CHAT
   demandeChat(id: String!, utilisateurId: String!) : Canal
   creerMessage(input: InputMessage, canalId: String): Message

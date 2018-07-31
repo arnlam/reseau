@@ -86,7 +86,7 @@
                   </v-list-tile-avatar>
                   <v-list-tile-title>Se déconnecter</v-list-tile-title>
                 </v-list-tile>
-                <v-list-tile :to="{path: './moi'}">
+                <v-list-tile :to="{path: '/moi'}">
                   <v-list-tile-avatar>
                     <v-icon>settings</v-icon>
                   </v-list-tile-avatar>

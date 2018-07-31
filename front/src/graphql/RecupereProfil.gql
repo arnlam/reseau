@@ -3,6 +3,9 @@ query auteur($id: String!) {
     id
     nom
     prenom
+    email
+    ville
+    avatar
     chat  {
       id
       canalId

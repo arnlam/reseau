@@ -15,7 +15,8 @@ const SchemaArticle = new Mongoose.Schema({
     type: String,
     required: true
   },
-  uri: String
+  uri: String,
+  like: [{id: String}]
 });
 
 const Article = Mongoose.model('articles', SchemaArticle);

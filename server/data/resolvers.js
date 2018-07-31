@@ -120,11 +120,9 @@ const resolvers = {
     // * CHAT MUTATION *//
 
     async creerMessage(root, { input, canalId }) {
-      console.log(1)
       Object.assign(input, {
         creationDate: await moment().toISOString()
       });
-      console.log(input);
       await Canal.findOneAndUpdate(
         {
           canalId: canalId
@@ -138,9 +136,24 @@ const resolvers = {
       return input;
     },
 
+    // * LIKE MUTATION * //
+    async like(root, { id, articleId}){
+       await Article.findOneAndUpdate(
+         {id: articleId, 'like.id' : { $ne: id }}, {
+        $addToSet:{
+            like: {id: id}
+        }
+      },
+        { new: true }
+      , (err, like) => {
+        if (err) throw err
+        return {id: id}
+      })
+    },
+
+
     // * ARTICLES MUTATION * //
     async creerArticle(root, { input }) {
-      console.log(input)
       const message = {
         texte: input.texte,
         auteurId: input.auteurId,
@@ -149,7 +162,6 @@ const resolvers = {
         creationDate: await moment().toISOString()
       }
       await Article.create(message);
-      console.log(message)
       pubsub.publish('articleAjoute', { articleAjoute: message })
       return message
     },

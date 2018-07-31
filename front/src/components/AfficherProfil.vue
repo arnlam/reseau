@@ -5,6 +5,14 @@
       <v-container fill-height>
         <v-layout align-center>
           <v-flex text-xs-center>
+                    <v-avatar :size="140">
+              <img :src="dataA.avatar" >
+            </v-avatar>
+
+               <file-input class ="v-btn" multiple accept='image/*' type="button" :uploader="uploader">
+            <span class="icon ion-upload v-btn__content">Modifier photo de profil</span>
+          </file-input>
+
             <h3 class="display-3">Mon profil</h3>
           </v-flex>
         </v-layout>
@@ -26,7 +34,7 @@
                 <v-text-field :disabled="!edition"
                 v-model="auteur.prenom" label="Prénom" outline></v-text-field>
                 <v-text-field :disabled="!edition"
-                v-model="auteur.nom" label="Prénom" outline></v-text-field>
+                v-model="auteur.nom" label="Nom" outline></v-text-field>
                 <v-text-field :disabled="!edition"
                 v-model="auteur.email" label="E-mail" outline></v-text-field>
                 <v-text-field :disabled="!edition"
@@ -47,14 +55,40 @@
 </template>
 
 <script>
+  import FineUploaderTraditional from 'fine-uploader-wrappers';
+  import FileInput from 'vue-fineuploader/file-input';
+  
 export default {
   name: 'profil',
+  components:{
+    FileInput
+  },
   props: {
     dataA: {
       type: Object,
     },
   },
   data() {
+     const uploader = new FineUploaderTraditional({
+        options: {
+          deleteFile: {
+            endpoint: 'http://localhost:3000/uploads'
+          },
+          request: {
+            endpoint: 'http://localhost:3000/uploads',
+            params: {
+              userId: this.$root.$data.userId
+            },
+          },
+          multiple: false,
+          setItemLimit: 1,
+          callbacks:{
+            onComplete: () =>{
+              this.$router.go();
+            },
+          }
+        }
+      })
     return {
       auteur: {
         nom: this.dataA.nom,
@@ -64,6 +98,7 @@ export default {
       },
       edition: false,
       gradient: 'to top right, rgba(63,81,181, .7), rgba(25,32,72, .7)',
+      uploader
     };
   },
   methods: {
@@ -83,4 +118,5 @@ export default {
 </script>
 
 <style>
+
 </style>

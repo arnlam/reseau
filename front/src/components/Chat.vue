@@ -3,7 +3,8 @@
     <div class="chatroom">
       <h1>Chat</h1>
           <ApolloQuery :query='require("../graphql/MessagesPrives/RecupereMessagesChat.gql")'
-          :variables="{ canalId: chatId }">
+          :variables="{ canalId: chatId }"
+          @done="messageEnvoye">
       <ApolloSubscribeToMore
         :document='require("../graphql/MessagesPrives/MessageChatAjoute.gql")'
         :updateQuery='surMessageAjoute'
@@ -55,8 +56,8 @@
       surMessageAjoute(previousResult, {
         subscriptionData,
       }) {
-      const newResult = {
-        tousLesMessagesChat: [...previousResult.tousLesMessagesChat],
+        const newResult = {
+          tousLesMessagesChat: [...previousResult.tousLesMessagesChat],
         }
         // Add the question to the list
         console.log(newResult)
@@ -64,6 +65,9 @@
         newResult.tousLesMessagesChat.push(subscriptionData.data.messageChatAjoute)
           console.log(newResult)
         return newResult
+      },
+      messageEnvoye(){
+        texte = '';
       }
     },
     computed: {
