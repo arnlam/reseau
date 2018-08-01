@@ -20,8 +20,7 @@
     </v-jumbotron>
     <ApolloMutation
     :mutation='require("../graphql/ModifierAuteur.gql")'
-    :variables='{ id: userId, input: auteur }'
-    @done="modifier">
+    :variables='{ id: userId, input: auteur }'>
       <template slot-scope="{mutate, loading, error}">
         <p v-if="error">Erreur lors de la sauvegarde : {{ error }}</p>
         <v-form>
@@ -72,10 +71,10 @@ export default {
      const uploader = new FineUploaderTraditional({
         options: {
           deleteFile: {
-            endpoint: 'http://localhost:80/uploads'
+            endpoint: 'http://arnaudlambert.info/uploads'
           },
           request: {
-            endpoint: 'http://localhost:80/uploads',
+            endpoint: 'http://arnaudlambert.info/uploads',
             params: {
               userId: this.$root.$data.userId
             },
@@ -104,9 +103,6 @@ export default {
   methods: {
     edit() {
       this.edition = !this.edition;
-    },
-    modifier() {
-      this.$router.go();
     },
   },
   computed: {

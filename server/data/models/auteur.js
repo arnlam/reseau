@@ -25,7 +25,7 @@ const SchemaAuteur = new Mongoose.Schema({
   },
   avatar: {
     type:String,
-    default: "http://localhost:80/img/default.png"
+    default: "http://arnaudlambert.info/img/default.png"
   },
   password: {
     type:String,

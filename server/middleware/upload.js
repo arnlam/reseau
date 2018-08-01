@@ -40,8 +40,9 @@ function onSimpleUpload(fields, file, res) {
     if (isValid(file.size)) {
       moveUploadedFile(file, uuid, async function () {
         responseData.success = true;
-        responseData.uri = 'http://localhost:80/uploads/' + uuid + '/' + file.name;
+        responseData.uri = 'http://arnaudlamber.info/uploads/' + uuid + '/' + file.name;
         if (fields.userId) {
+          console.log('ok')
           await Auteur.findOneAndUpdate({
             id: fields.userId
           }, {
@@ -52,6 +53,7 @@ function onSimpleUpload(fields, file, res) {
     },
     function () {
       responseData.error = "Problem copying the file!";
+      console.log('error')
       res.send(responseData);
     });
   } else {
