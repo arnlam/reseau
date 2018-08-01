@@ -9,7 +9,7 @@ var fs = require("fs"),
   fileInputName = process.env.FILE_INPUT_NAME || "qqfile",
   uploadedFilesPath = './public/uploads/',
   chunkDirName = "chunks",
-  port = process.env.SERVER_PORT || 3000,
+  port = process.env.SERVER_PORT ||80,
   maxFileSize = process.env.MAX_FILE_SIZE || 0; // in bytes, 0 for unlimited
 
 export function onUpload(req, res) {
@@ -40,7 +40,7 @@ function onSimpleUpload(fields, file, res) {
     if (isValid(file.size)) {
       moveUploadedFile(file, uuid, async function () {
         responseData.success = true;
-        responseData.uri = 'http://localhost:3000/uploads/' + uuid + '/' + file.name;
+        responseData.uri = 'http://localhost:80/uploads/' + uuid + '/' + file.name;
         if (fields.userId) {
           await Auteur.findOneAndUpdate({
             id: fields.userId
