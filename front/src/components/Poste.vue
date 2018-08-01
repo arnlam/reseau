@@ -56,10 +56,10 @@ export default {
         options: {
           deleteFile: {
             enabled: true,
-            endpoint: 'http://localhost:80/uploads'
+            endpoint: 'http://arnaudlambert.info/uploads'
           },
           request: {
-            endpoint: 'http://localhost:80/uploads'
+            endpoint: 'http://arnaudlambert.info/uploads'
           },
           setItemLimit: 1,
           callbacks:{

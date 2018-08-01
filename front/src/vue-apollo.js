@@ -9,7 +9,7 @@ Vue.use(VueApollo);
 const AUTH_TOKEN = 'apollo-token';
 
 // Http endpoint
-const httpEndpoint = 'http://localhost:80/graphql';
+const httpEndpoint = 'http://arnaudlambert.info/graphql';
 
 // Config
 const defaultOptions = {
@@ -17,7 +17,7 @@ const defaultOptions = {
   httpEndpoint,
   // You can use `wss` for secure connection (recommended in production)
   // Use `null` to disable subscriptions
-  wsEndpoint: 'ws://localhost:80/subscriptions',
+  wsEndpoint: 'ws://arnaudlambert.info/subscriptions',
   // LocalStorage token
   tokenName: AUTH_TOKEN,
   // Enable Automatic Query persisting with Apollo Engine
