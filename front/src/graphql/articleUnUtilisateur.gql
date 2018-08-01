@@ -1,0 +1,29 @@
+query articleUnUtilisateur($userId: String!) {
+  articleUnUtilisateur(userId:$userId) {
+    texte
+    id
+    creationDate
+    uri
+    like {
+      id
+    }
+    auteur{
+      prenom
+      nom
+      id
+      avatar
+    }
+    commentaires{
+      id
+      creationDate
+      texte
+      auteurId
+      auteurCom {
+        prenom
+        nom
+        id
+        avatar
+      }
+    }
+  }
+}

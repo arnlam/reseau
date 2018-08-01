@@ -1,0 +1,8 @@
+query auteur($id: String!) {
+  auteur(id: $id) {
+    chat  {
+      id
+      canalId
+    }
+  }
+}
