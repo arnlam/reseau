@@ -53,12 +53,12 @@
     <v-container>
       <v-layout align-center justify-center>
         <v-flex xs12 sm6>
-          <ApolloQuery :query='require("../graphql/RecupereMessage.gql")'>
+          <ApolloQuery :query='require("../graphql/articleUnUtilisateur.gql")' :variables='{userId: dataA.id}'>
             <template slot-scope='{result: {loading, error, data}}'>
               <div v-if='loading'> Loading...</div>
               <div v-else-if='error'>Une erreur</div>
               <div v-else-if='data'>
-                <template v-for='(article, index) of data.tousLesArticles'>
+                <template v-for='(article, index) of data.articleUnUtilisateur'>
                   <Article :key="index" :article="article" :index="index" />
                 </template>
               </div>
@@ -105,7 +105,6 @@ export default {
     };
   },
   methods: {
-
     amitieDemandee() {},
   },
   computed: {

@@ -2,6 +2,11 @@ query tousLesMessagesChat ($canalId: String!){
   tousLesMessagesChat(canalId: $canalId){
     texte
     userId
+    auteur{
+      prenom
+      nom
+      avatar
+    }
     creationDate
   }
 }

@@ -1,7 +1,7 @@
 <template>
 
 
-    <v-flex xs12 sm7 md5>
+    <v-flex xs12 sm7 md7>
       <v-layout>
      <v-flex xs12 sm8>
         <ApolloMutation
@@ -28,7 +28,8 @@
       </ApolloMutation>
      </v-flex>
        <v-flex xs12 sm4>
-       <Gallery :uploader="uploader" :key="keyUploader"/>
+       <Gallery :uploader="uploader" :key="keyUploader">
+       </Gallery>
        </v-flex>
       </v-layout>
       <Timeline
@@ -55,10 +56,10 @@ export default {
         options: {
           deleteFile: {
             enabled: true,
-            endpoint: 'http://arnaudlambert.info/uploads'
+            endpoint: 'http://localhost:80/uploads'
           },
           request: {
-            endpoint: 'http://arnaudlambert.info/uploads'
+            endpoint: 'http://localhost:80/uploads'
           },
           setItemLimit: 1,
           callbacks:{

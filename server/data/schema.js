@@ -68,6 +68,7 @@ type Canal {
 type Message {
   id: String
   userId: String
+  auteur: Auteur
   texte: String
   creationDate: String
 }
@@ -118,6 +119,7 @@ type Query {
   auteurCom(auteurId:String!): Auteur
   personne(id: String!): Auteur
   tousLesMessagesChat(canalId: String!): [Message]
+  articleUnUtilisateur(userId: String!): [Article]
 }
 
 # //// MUTATION ////
@@ -157,6 +159,7 @@ type Subscription {
   articleAjoute: Article
   commentaireAjoute: Commentaire
   messageChatAjoute(canalId: String): Message
+  modifProfil(userId: String): String
 }
 
 

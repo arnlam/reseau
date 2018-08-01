@@ -28,6 +28,10 @@ const resolvers = {
     async tousLesArticles(root, args) {
       return await Article.find().sort({creationDate:-1}).limit(args.first);
     },
+    async articleUnUtilisateur(root, args) {
+      console.log(args.userId)
+      return await Article.find({auteurId: args.userId});
+    },
     async commentaires(article){
       return await Commentaire.find(article.articleId);
     },
@@ -207,6 +211,7 @@ const resolvers = {
             canalId: canal } }
         },
         {new:true});
+        pubsub.publish('modifProfil', {userId: id });
       return await Canal.create({
           canalId: canal
         });
@@ -227,6 +232,14 @@ const resolvers = {
         }
       )
     },
+    modifProfil: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator('messageChatAjoute'),
+        (payload, variables) => {
+          return payload.userId === variables.userId;
+        }
+      )
+    }
   },
   // 
   Article: {
@@ -247,6 +260,11 @@ const resolvers = {
       return await Auteur.findOne({id: demande.id});
     }
   },
+  Message: {
+    async auteur(msg) {
+      return await Auteur.findOne({id: msg.userId})
+    }
+  }
   // Canal: {
   //   async messages(canal){
   //     return await Canal.find({idCanal: canal.id })

@@ -59,7 +59,7 @@
           </v-btn>
           
         <ApolloMutation :mutation='require("../graphql/Like.gql")' :variables='{ id:userId, articleId: article.id }'
-          :key="'like'+index" @done="liking">
+          :key="'like'+index" @done.once="liking">
           <template slot-scope="{mutate, loading, error}">
             <v-btn  flat @click="mutate()">
             <v-icon :class="{ 'teal--text': isActive || isPresent }" class="mr-2">sentiment_very_satisfied</v-icon>
@@ -120,7 +120,7 @@
     },
     data() {
       return {
-        likes: this.article.like.length,
+        likes: this.article.like ? this.article.like.length : 0,
         show: false,
         texte: '',
         isActive: false
@@ -131,7 +131,7 @@
         this.texte = '';
       },
       liking(data) {
-        if(!data.like){
+        if(this.isPresent){
           return;
         }
         this.likes++;

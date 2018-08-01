@@ -2,6 +2,11 @@
   <div id="mur">
 
     <ApolloQuery v-if="userId" :query='require("../graphql/RecupereProfil.gql")' :variables="{ id: userId }">
+        <ApolloSubscribeToMore
+        :document='require("../graphql/ModifProfil.gql")'
+        :updateQuery='surModifProfil'
+        :variables="{ id: userId}"/>
+    
       <template slot-scope='{result: {loading, error, data}}'>
         <div v-if='loading'> Loading...</div>
         <div v-else-if='error'>Une erreur</div>
@@ -57,9 +62,9 @@
             @done="amitieDemandee">
             <template slot-scope="{ mutate, loading, error }">
                    <v-list-tile-action>
-                    <v-icon @click="mutate()" color="green">done_outline</v-icon>
+                    <v-icon @click="mutate()" color="green" @done="reponse">done_outline</v-icon>
                   </v-list-tile-action>
-            </template>
+             </template>
             </ApolloMutation>
                     
                    <v-list-tile-action>
@@ -131,6 +136,16 @@ export default {
       this.$root.$data.userId = localStorage.getItem('user-id');
       this.$router.replace('/login');
     },
+    amitieDemandee(){
+      this.$router.go();
+    },
+    reponse() {
+      this.$router.go();
+    },
+    surModifProfil(){
+      // this.$router.go();
+    }
+
   },
   computed: {
     userId() {

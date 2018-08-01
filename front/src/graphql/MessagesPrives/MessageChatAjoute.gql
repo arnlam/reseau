@@ -3,5 +3,11 @@ subscription messageChatAjoute($canalId: String){
     texte
     userId
     creationDate
+    auteur{
+      prenom
+      nom
+      avatar
+    }
+
   }
 }

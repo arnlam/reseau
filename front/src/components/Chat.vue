@@ -1,10 +1,9 @@
 <template>
   <v-flex xs12 sm3 md3 offset-sm2>
     <div class="chatroom">
-      <h1>Chat</h1>
           <ApolloQuery :query='require("../graphql/MessagesPrives/RecupereMessagesChat.gql")'
           :variables="{ canalId: chatId }"
-          @done="messageEnvoye">
+          fetch-policy="cache-and-network">
       <ApolloSubscribeToMore
         :document='require("../graphql/MessagesPrives/MessageChatAjoute.gql")'
         :updateQuery='surMessageAjoute'
@@ -13,12 +12,19 @@
       <template slot-scope='{result: {loading, error, data}}'>
         <div v-if='loading'> Loading...</div>
         <div v-else-if='error'>Une erreur</div>
-        <div v-else-if='data'>
+        <div v-else-if='data' id="chat" class="white elevation-2">
 
           <template v-for='(msg, index) of data.tousLesMessagesChat'>
-            <p :key="'msg'+index"><span>{{msg.creationDate | moment('from') }} : </span>{{msg.texte}}</p>
+            <v-flex xs12 :key="'msg'+index"  :class="{'text-xs-right': msg.userId === userId}">
+          <v-chip >
+            <v-avatar>
+              <img :src="msg.auteur.avatar" >
+            </v-avatar>
+            {{msg.auteur.prenom}} {{msg.auteur.nom}}
+          </v-chip>
+            <p><span class="grey--text">{{msg.creationDate | moment('from') }} </span><br />{{msg.texte}}</p>
+          </v-flex>
              </template>
-
         </div>
         <div v-else>Aucun résultat</div>
       </template>
@@ -26,14 +32,16 @@
       <ApolloMutation 
       :mutation='require("../graphql/MessagesPrives/CreerMessage.gql")' 
       :variables='{ input: { userId: userId, texte: texte }, canalId: chatId }'
+      @done="messageEnvoye"
       >
-        <template slot-scope="{ mutate, loading, error }">
+        <template slot-scope="{ mutate, loading, error }" >
           <v-text-field 
+          @keyup.native.enter="mutate()"
           label="Message" 
           outline
           v-model="texte">
           </v-text-field>
-          <v-btn @click="mutate">Envoyer</v-btn>
+          <v-btn @click="mutate" >Envoyer</v-btn>
         </template>
       </ApolloMutation>
     </div>
@@ -67,7 +75,7 @@
         return newResult
       },
       messageEnvoye(){
-        texte = '';
+        this.texte = '';
       }
     },
     computed: {
@@ -79,4 +87,9 @@
 </script>
 
 <style>
+#chat{
+  border-radius: 2px;
+  max-height: 60vh;
+  overflow: auto
+}
 </style>

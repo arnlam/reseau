@@ -72,10 +72,10 @@ export default {
      const uploader = new FineUploaderTraditional({
         options: {
           deleteFile: {
-            endpoint: 'http://arnaudlambert.info/uploads'
+            endpoint: 'http://localhost:80/uploads'
           },
           request: {
-            endpoint: 'http://arnaudlambert.info/uploads',
+            endpoint: 'http://localhost:80/uploads',
             params: {
               userId: this.$root.$data.userId
             },
