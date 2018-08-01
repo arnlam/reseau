@@ -27,7 +27,7 @@ Mongoose.connect('mongodb://localhost:27017/reseau', { useNewUrlParser: true });
 
 
 app.get('/', function (req, res) {
-  res.render(path.join(__dirname + '/dist/index.html'))
+  res.sendFile(path.join(__dirname + '/dist/index.html'))
 })
 
 
