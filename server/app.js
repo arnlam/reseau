@@ -26,12 +26,17 @@ Mongoose.connect('mongodb://localhost:27017/reseau', { useNewUrlParser: true });
 // )
 
 
+app.get('/', function (req, res) {
+  res.render(path.join(__dirname + '/dist/index.html'))
+})
+
+
 // config app
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 // routes
 app.post("/uploads", onUpload);
