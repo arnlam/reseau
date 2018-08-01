@@ -11,7 +11,6 @@ import Mur from './views/Mur.vue';
 Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
   routes:
   [
     {

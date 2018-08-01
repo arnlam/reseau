@@ -1,28 +1,15 @@
 const express = require('express')
 const path = require('path')
-const history = require('connect-history-api-fallback')
-var morgan = require('morgan')
-const csp = require('express-csp-header');
-
+// const history = require('connect-history-api-fallback')
+// ^ middleware to redirect all URLs to index.html
 
 const app = express()
-const staticFileMiddleware = express.static(path.join(__dirname+ '/dist'))
-morgan(':method :url :status :res[content-length] - :response-time ms')
+const staticFileMiddleware = express.static(path.join(__dirname + '/dist'))
+
 
 app.use(staticFileMiddleware)
-app.use(history())
-app.use(staticFileMiddleware)
+// ^ `app.use(staticFileMiddleware)` is included twice as per https://github.com/bripkens/connect-history-api-fallback/blob/master/examples/static-files-and-index-rewrite/README.md#configuring-the-middleware
 
-app.use(csp({
-    policies: {
-        'default-src': [csp.SELF],
-        'script-src': [csp.SELF, csp.INLINE, 'somehost.com'],
-        'style-src': [csp.SELF, 'mystyles.net'],
-        'img-src': ['data:', 'images.com'],
-        'worker-src': [csp.NONE],
-        'block-all-mixed-content': true
-    }
-}));
 app.get('/', function (req, res) {
   res.render(path.join(__dirname + '/dist/index.html'))
 })
